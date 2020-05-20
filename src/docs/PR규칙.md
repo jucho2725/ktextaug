@@ -1,5 +1,15 @@
 # Pull Request  규칙 정하기
 
+### commit 규칙 정하기?
+
+
+
+### branch 규칙 정하기?
+
+브랜치 
+
+
+
 ### 간단 PR 튜토리얼
 
 https://github.com/hishamhm/pull-request-tutorial
