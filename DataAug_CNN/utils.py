@@ -32,13 +32,16 @@ class Params:
     def aug_build_vocab(self):
 
         data_dir = Path().cwd() / 'data'
-        sentence_file = os.path.join(data_dir, 'aug_tok_train_s1000.csv')
+        sentence_file = os.path.join(data_dir, 'tok_train_s1000.csv')
 
-        df = pd.read_table(sentence_file, encoding='utf-8')
+        df = pd.read_csv(sentence_file, encoding='utf-8')
 
         sentence_list = []
+        header = df.columns
+        df = df.drop(columns=header[0])
+
         for _, row in tqdm(df.iterrows()):
-            sentence_list.append(row[1].split('|'))
+            sentence_list.append(row.values.tolist()[0].split('|'))
 
         sequence = list(map(len, sentence_list))
         df_sequence_length = pd.DataFrame(sequence)
@@ -119,15 +122,17 @@ def padding_sentence(max_sequence_length, mode):
     elif mode == 'valid':
         corpus_file = os.path.join(data_dir, 'valid.csv')
     else:
-        corpus_file = os.path.join(data_dir, 'ratings_test.txt') ## 수정해야 함!
+        corpus_file = os.path.join(data_dir, 'tok_test_all.csv')
 
-    df = pd.read_csv(corpus_file, encoding='utf-8')
+    df = pd.read_csv(corpus_file)
     label = torch.LongTensor(df['label'])
     df_length = len(df)
 
     sentence_list = []
     for _, row in tqdm(df.iterrows()):
         sentence_list.append(row[1].split('|'))
+
+
 
     input_sentence = []
     vocab_list = vocab.keys()
@@ -167,8 +172,8 @@ def build_dataset():
     df = pd.read_csv(train_file, encoding='utf-8')
     train, valid = train_test_split(df, test_size=0.2, random_state=333)
 
-    train.to_csv(data_dir / 'train.csv', sep='\t', index=False)
-    valid.to_csv(data_dir / 'valid.csv', sep='\t', index=False)
+    train.to_csv(data_dir / 'train.csv', index=False)
+    valid.to_csv(data_dir / 'valid.csv', index=False)
 
 
 def make_iter(mode, params, inputs, labels):

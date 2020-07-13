@@ -1,6 +1,6 @@
-from test.DataAug_CNN.utils import Params
-from test.DataAug_CNN.utils import build_tokenizer, padding_sentence, make_iter, build_dataset
-from test.DataAug_CNN.train import Trainer
+from utils import Params
+from utils import build_tokenizer, padding_sentence, make_iter, build_dataset
+from train import Trainer
 import argparse
 import pickle
 
