@@ -1,9 +1,13 @@
-def random_deletion(sentence,p):
+from konlpy.tag import Mecab
+import random
+import aug_util as util
+
+
+def random_deletion(words,p):
+    #sentence = util.tokenize(sentence)
+    if len(words) == 1 :
+        return words
     
-    if len(sentence) == 1 :
-        return sentence
-    
-    words = sentence.split()
     new_words = []
     
     for word in words:
@@ -15,4 +19,12 @@ def random_deletion(sentence,p):
         rand_int = random.randint(0,len(words)-1)
         return " ".join([words[rand_int]])
     
-    return " ".join(new_words)
+    return new_words
+
+if __name__ == "__main__":
+    sample = "철수가 밥을 빨리 먹었다."
+    print("Sample : ",sample)
+    print("Tokenize")
+    print(util.tokenize(sample))
+    print("Random_Deletion")
+    print(random_deletion(sample,0.3))
