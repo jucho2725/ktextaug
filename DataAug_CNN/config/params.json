@@ -1,0 +1,15 @@
+{
+    "json_path": "config/params.json",
+    "optim": "Adam",
+    "num_classes": 2,
+    "random_seed": 333,
+    "batch_size": 128,
+    "epoch": 10,
+    "learning_rate": 0.001,
+    "mode": "train",
+    "embedding_dim": 300,
+    "pad_idx": 0,
+    "save_model": "./model.pt",
+    "max_sequence_length": 22,
+    "vocab_size": 3648
+}
