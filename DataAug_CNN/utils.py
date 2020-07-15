@@ -22,26 +22,29 @@ from sklearn.model_selection import train_test_split
 
 class Params:
 
-    def __init__(self, json_path):
+    def __init__(self, json_path, data_name):
 
         self.json_path = json_path
         self.update(json_path)
-        self.aug_build_vocab()
+        self.aug_build_vocab(data_name)
         self.set_cuda()
 
-    def aug_build_vocab(self):
+    def aug_build_vocab(self, data_name):
 
         data_dir = Path().cwd() / 'data'
-        sentence_file = os.path.join(data_dir, 'tok_train_s1000.csv')
+        sentence_file = os.path.join(data_dir, data_name)
+        test_file = os.path.join(data_dir, 'tok_test_all.csv')
 
+        test_df = pd.read_csv(test_file, encoding='utf-8')
         df = pd.read_csv(sentence_file, encoding='utf-8')
+
+        df = df.append(test_df, ignore_index=True)
 
         sentence_list = []
         header = df.columns
         df = df.drop(columns=header[0])
-
-        for _, row in tqdm(df.iterrows()):
-            sentence_list.append(row.values.tolist()[0].split('|'))
+        for row in tqdm(df['review']):
+            sentence_list.append(row.split('|'))
 
         sequence = list(map(len, sentence_list))
         df_sequence_length = pd.DataFrame(sequence)
@@ -89,24 +92,24 @@ class Params:
 
 
 
-def build_tokenizer():
-
-    data_path = Path().cwd() / 'data'
-    corpus_file = os.path.join(data_path, 'ratings.txt')
-
-    df = pd.read_table(corpus_file, encoding='utf-8')
-    df['document'] = list(map(str, df['document']))
-
-    word_extractor = WordExtractor(min_frequency=10, min_cohesion_forward=0.05)
-    word_extractor.train(df['document'])
-
-    words = word_extractor.extract()
-    cohesion_score = {word: score.cohesion_forward for word, score in words.items()}
-
-    tokenizer = MaxScoreTokenizer(scores=cohesion_score)
-
-    with open('pickles/tokenizer.pickle', 'wb') as pickle_out:
-        pickle.dump(tokenizer, pickle_out)
+# def build_tokenizer():
+#
+#     data_path = Path().cwd() / 'data'
+#     corpus_file = os.path.join(data_path, 'ratings.txt')
+#
+#     df = pd.read_table(corpus_file, encoding='utf-8')
+#     df['document'] = list(map(str, df['document']))
+#
+#     word_extractor = WordExtractor(min_frequency=10, min_cohesion_forward=0.05)
+#     word_extractor.train(df['document'])
+#
+#     words = word_extractor.extract()
+#     cohesion_score = {word: score.cohesion_forward for word, score in words.items()}
+#
+#     tokenizer = MaxScoreTokenizer(scores=cohesion_score)
+#
+#     with open('pickles/tokenizer.pickle', 'wb') as pickle_out:
+#         pickle.dump(tokenizer, pickle_out)
 
 
 def padding_sentence(max_sequence_length, mode):
@@ -129,10 +132,8 @@ def padding_sentence(max_sequence_length, mode):
     df_length = len(df)
 
     sentence_list = []
-    for _, row in tqdm(df.iterrows()):
-        sentence_list.append(row[1].split('|'))
-
-
+    for row in tqdm(df['review']):
+        sentence_list.append(row.split('|'))
 
     input_sentence = []
     vocab_list = vocab.keys()
@@ -165,9 +166,9 @@ def padding_sentence(max_sequence_length, mode):
     return input_sentence, label
 
 
-def build_dataset():
+def build_dataset(data_name):
     data_dir = Path().cwd() / 'data'
-    train_file = os.path.join(data_dir, 'aug_tok_train_s1000.csv')
+    train_file = os.path.join(data_dir, data_name)
 
     df = pd.read_csv(train_file, encoding='utf-8')
     train, valid = train_test_split(df, test_size=0.2, random_state=333)

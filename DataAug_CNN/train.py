@@ -69,8 +69,8 @@ class Trainer:
                 best_valid_loss = valid_loss
                 torch.save(self.model.state_dict(), self.params.save_model)
 
-            print(f'Epoch: {epoch} | Elapsed time: {elapsed[0]:.0f}h {elapsed[1]:.0f}m {elapsed[2]}s')
-            print(f'\tTrain Loss: {train_loss:.3f} | Validation Loss: {valid_loss:.3f} | Train Acc: {train_acc:.3f} | Valid Acc: {valid_acc:.3f}')
+            # print(f'Epoch: {epoch} | Elapsed time: {elapsed[0]:.0f}h {elapsed[1]:.0f}m {elapsed[2]}s')
+            # print(f'\tTrain Loss: {train_loss:.3f} | Validation Loss: {valid_loss:.3f} | Train Acc: {train_acc:.3f} | Valid Acc: {valid_acc:.3f}')
 
 
     def evaluate(self):
