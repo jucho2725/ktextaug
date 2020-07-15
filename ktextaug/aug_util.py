@@ -4,6 +4,9 @@ from nltk.corpus import stopwords
 import requests
 from bs4 import BeautifulSoup
 import random
+# import nltk
+# nltk.download('stopwords')
+
 def open_text(fn, enc='utf-8'):
     with open(fn,'r', encoding = enc) as f: return ''.join(f.readlines())
 

@@ -1,7 +1,7 @@
 #library import
 import six
 import random
-import aug_util as util
+import ktextaug.aug_util as util
 '''
 Augmentation
 1.Random Swap
@@ -51,10 +51,11 @@ def word_insert(words):
         target = random.choice(f_words)
         new_syn = util.get_synonym(target)
         counter += 1
+        if counter > 30:
+            Flag = False
+        # print(counter)
         if target == new_syn :
             pass
-        elif counter == 30:
-            Flag = False
         else:
             Flag = False
     result = words[:]
@@ -181,4 +182,10 @@ if __name__ == "__main__":
     print("Random Deletion : ",RD)
     print("Synonym Replacement : ",SR)
     '''
-    print(Augment(word))
+    result = Augment(word)
+    print("Original : ", word)
+    print(len(result))
+    print("Random Swap : ", result[0])
+    print("Random Insertion : ", result[1])
+    print("Random Deletion : ", result[2])
+    print("Synonym Replacement : ", result[3])
