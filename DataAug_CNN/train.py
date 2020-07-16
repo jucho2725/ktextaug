@@ -112,4 +112,28 @@ class Trainer:
             test_acc = acc_sum / (len(self.test_iter)*self.params.batch_size)
 
         test_loss = test_loss / len(self.test_iter)
-        print(f'Test Loss: {test_loss:.3f} | Test Acc: {test_acc:.3f}')
+        # print(f'Test Loss: {test_loss:.3f} | Test Acc: {test_acc:.3f}')
+        return test_acc
+
+    def vectorize(self):
+
+        self.model.load_state_dict(torch.load(self.params.save_model))
+        self.model.eval()
+        test_loss = 0
+        acc_sum = 0
+
+        for data in self.test_iter:
+            inputs, labels = data[0].to(self.params.device), data[1].to(self.params.device)
+            output = self.model(inputs)
+            print(output.shape)
+
+        #     loss = self.loss_fn(output, labels)
+        #
+        #     _, predicted = torch.max(output.data, 1)
+        #     acc_sum += (predicted == labels).sum().item()
+        #     test_loss += loss.item()
+        #
+        #     test_acc = acc_sum / (len(self.test_iter)*self.params.batch_size)
+        #
+        # test_loss = test_loss / len(self.test_iter)
+        # print(f'Test Loss: {test_loss:.3f} | Test Acc: {test_acc:.3f}')

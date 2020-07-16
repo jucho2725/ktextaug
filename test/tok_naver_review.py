@@ -1,4 +1,4 @@
-from ktextaug.random_swap import tokenize
+from ktextaug.aug_util import tokenize
 from tqdm import tqdm, trange
 import pandas as pd
 

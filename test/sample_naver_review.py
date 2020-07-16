@@ -60,22 +60,22 @@ def main(train, test ,num_of_sample):
     rate_pos = len(df_test[df_test['label'] == 1]) / len(df_test)
 
     rs_p = df_pos.sample(n= int(num_of_sample*rate_pos), random_state=random.sample(random_state, 1)[0])
-    rs_p = check_dup(rs_p, df)
+    # rs_p = check_dup(rs_p, df)
 
     rs_n = df_neg.sample(n= num_of_sample - int(num_of_sample*rate_pos), random_state=random.sample(random_state, 1)[0])
-    rs_n = check_dup(rs_n, df)
+    # rs_n = check_dup(rs_n, df)
 
     result = rs_p.append(rs_n)
     result = result.sample(frac=1).reset_index(drop=True) # shuffle
     print(len(result))
     #
-    result.to_csv("../src/data/ratings_train_s1000.csv", index=False)
+    result.to_csv("../src/data/ratings_train_s10000.csv", index=False)
     print("done")
 
 if __name__ == '__main__':
     train_path = "../src/data/ratings_train.txt"
     test_path = "../src/data/ratings_test.txt"
-    num_of_sample = 1000
+    num_of_sample = 10000
     main(train=train_path,
          test=test_path,
          num_of_sample=num_of_sample)

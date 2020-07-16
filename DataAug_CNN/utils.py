@@ -16,9 +16,13 @@ import pickle
 import torch
 import itertools
 from collections import Counter
+
 import re
 from sklearn.model_selection import train_test_split
+import random
 
+os.makedirs('pickles/', exist_ok=True)
+rs = list(range(50))
 
 class Params:
 
@@ -43,7 +47,8 @@ class Params:
         sentence_list = []
         header = df.columns
         df = df.drop(columns=header[0])
-        for row in tqdm(df['review']):
+        # for row in tqdm(df['review']):
+        for row in df['review']:
             sentence_list.append(row.split('|'))
 
         sequence = list(map(len, sentence_list))
@@ -54,7 +59,7 @@ class Params:
 
         vocab = ['<PAD>'] + [word for word in token_counter.keys()]
         vocab_size = len(vocab)
-        print('Total Vocab size : ', vocab_size)
+        # print('Total Vocab size : ', vocab_size)
 
         word_to_idx = {idx: word for word, idx in enumerate(vocab)}
 
@@ -132,7 +137,8 @@ def padding_sentence(max_sequence_length, mode):
     df_length = len(df)
 
     sentence_list = []
-    for row in tqdm(df['review']):
+    # for row in tqdm(df['review']):
+    for row in df['review']:
         sentence_list.append(row.split('|'))
 
     input_sentence = []
@@ -171,7 +177,9 @@ def build_dataset(data_name):
     train_file = os.path.join(data_dir, data_name)
 
     df = pd.read_csv(train_file, encoding='utf-8')
-    train, valid = train_test_split(df, test_size=0.2, random_state=333)
+    r_state = random.sample(rs, 1)[0]
+    # print("Random state : ", r_state)
+    train, valid = train_test_split(df, test_size=0.2, random_state=r_state)
 
     train.to_csv(data_dir / 'train.csv', index=False)
     valid.to_csv(data_dir / 'valid.csv', index=False)
