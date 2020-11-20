@@ -127,7 +127,7 @@ def main(file_path="review_total.csv", save_path=None):
     print(f"Checking : length of origin + sr data {len(sr)}")
 
     row_list_bt = []
-    df_nottok_bt = pd.read_csv("../src/data/bt_nottok_train_s10000.csv", index_col=False)
+    df_nottok_bt = pd.read_csv("../etc/src/data/bt_nottok_train_s10000.csv", index_col=False)
     # print(df_nottok_bt.head())
     for i in trange(len(df_nottok_bt), desc=f"Tokenize from backtranslated data: "):
         try:
@@ -208,7 +208,7 @@ def main(file_path="review_total.csv", save_path=None):
     train_df = pd.read_table(
         "../src/data/ratings_train.txt", encoding="utf-8"
     )  # 150000 data
-    ndf = pd.read_csv("../src/data/noise_data.csv")
+    ndf = pd.read_csv("../etc/src/data/noise_data.csv")
     sampled_df = train_df.loc[train_df["id"].isin(df["id"].tolist())]
     sampled_ndf = ndf.loc[sampled_df.index, :]
 
@@ -243,5 +243,5 @@ def main(file_path="review_total.csv", save_path=None):
 
 
 if __name__ == "__main__":
-    path = "../src/data/ratings_train_s1000.csv"
+    path = "../src/ratings_train_s1000.csv"
     main(file_path=path)

@@ -14,7 +14,6 @@
 # gitignore template for Jupyter Notebooks
 # website: http://jupyter.org/
 
-
 # Remove previous ipynb_checkpoints
 #   git rm -r .ipynb_checkpoints/
 
@@ -124,20 +123,11 @@ ENV/
 env.bak/
 venv.bak/
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
 # Rope project settings
 .ropeproject
 
 # mkdocs documentation
 /site
-
-# mypy
-.mypy_cache/
-.dmypy.json
-dmypy.json
 
 # Pyre type checker
 .pyre/
@@ -189,8 +179,20 @@ venv/
 
 # ignore previous data
 
-
-
 # ignore mp4 files
 .mp4
 
+# vscode
+.vscode/
+
+# Sphinx documentation
+docs/_build/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
