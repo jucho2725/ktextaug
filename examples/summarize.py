@@ -69,7 +69,7 @@ def Augment(text, alpha_rs=0.2, alpha_ri=0.2, alpha_sr=0.2, p_rd=0.2, num_iter=9
     print('bt')
     # Tran
     tmp = []
-    try:
+    try: # 오류 발생 https://github.com/ssut/py-googletrans/issues/234
         a_words = translator.backtranslate(text, target_language="en")
         tmp.append(a_words)
         a_words2 = translator.backtranslate(text, target_language="ja")
