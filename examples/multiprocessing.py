@@ -1,4 +1,14 @@
-# from ktextaug.aug_util import tokenize
+"""
+Author : JinUk, Cho
+Last update : 20th, Nov, 2020
+
+대용량 데이터를 처리하고자 할때 multiprocessing 패키지를 사용하는 예제입니다.
+beautifulsoup이나 googletrans같은 패키지를 사용하는 backtranslation(bt), random_insertion(ri), synonym_replacement(sr)
+3가지 기법만 multiprocessing을 이용하여 처리했습니다.
+"""
+
+
+from ktextaug.utils import tokenize
 from ktextaug import random_swap, random_deletion, random_insertion, synonym_replacement, BackTranslate, NoiseGenerator
 
 from tqdm import trange
@@ -6,18 +16,22 @@ import pandas as pd
 import random
 import multiprocessing
 
-# from transformers import ElectraTokenizer
-# tokenizer = ElectraTokenizer.from_pretrained("monologg/koelectra-base-v3-discriminator")
-
-from transformers import BertTokenizer
-tokenizer = BertTokenizer.from_pretrained(
-    "bert-base-multilingual-cased", do_lower_case=False
-)
-
 random.seed(2020)
+translator = BackTranslate()
 
-def tokenize(text):
-    return tokenizer.tokenize(text)
+def bt_proc(i, df, lang=None):
+    ### back translation ###
+    error = False
+    try:
+        tmp = {
+            "id": df.iloc[i, 0],
+            "review": translator.backtranslate(df.iloc[i, 1], dest=lang),
+            "label": df.iloc[i, 2],
+        }
+    except Exception as e:
+        tmp = {"id": df.iloc[i, 0], "review": df.iloc[i, 1], "label": df.iloc[i, 2]}
+        error = True
+    return tmp, error
 
 def ri_proc(i, df):
     ### random insertion ###
@@ -108,6 +122,9 @@ def main(file_path="review_total.csv", save_path=None):
     li_sr = parmap.starmap(
         sr_proc, input_indices, df, pm_pbar=True, pm_processes=num_cores
     )
+    tu_bt = parmap.starmap(
+        bt_proc, input_indices, df, "en", pm_pbar=True, pm_processes=num_cores
+    )
 
     ### random insertion ###
     df_ri = pd.DataFrame(li_ri)
@@ -126,9 +143,10 @@ def main(file_path="review_total.csv", save_path=None):
     )
     print(f"Checking : length of origin + sr data {len(sr)}")
 
+    ### back translation ###
+    li_bt = [x[0] for x in tu_bt]
+    df_nottok_bt = pd.DataFrame(li_bt)
     row_list_bt = []
-    df_nottok_bt = pd.read_csv("../etc/src/data/bt_nottok_train_s10000.csv", index_col=False)
-    # print(df_nottok_bt.head())
     for i in trange(len(df_nottok_bt), desc=f"Tokenize from backtranslated data: "):
         try:
             review = "|".join(tokenize(df_nottok_bt.iloc[i, 1]))
@@ -243,5 +261,5 @@ def main(file_path="review_total.csv", save_path=None):
 
 
 if __name__ == "__main__":
-    path = "../src/ratings_train_s1000.csv"
+    path = "../src/data/nsmc_train_s1000.csv"
     main(file_path=path)

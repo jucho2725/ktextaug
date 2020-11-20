@@ -31,7 +31,7 @@ class BackTranslate:
         return result.text
 
 
-def main():  # test
+def main():  # examples
     bt_model = BackTranslate()
     sent = "한국말 잘 몰라요."
     print(bt_model.backtranslate(sent, target_language="ja"))

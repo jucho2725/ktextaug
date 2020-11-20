@@ -3,48 +3,36 @@ Author : JungHoon, Lee
 Last update : 20th, Nov, 2020
 """
 
-import requests
-from bs4 import BeautifulSoup
 import random
-from .utils import isStopword, isWord, tokenize
+from .utils import isStopword, isWord, tokenize, get_synonym
 
 
-def get_synonym(word):
-    relate_list = []
-    res = requests.get("https://dic.daum.net/search.do?q=" + word)
-    soup = BeautifulSoup(res.content, "html.parser")
-    try:
-        word_id = soup.find("ul", class_="list_relate")
-    except AttributeError:
-        return word
-    if word_id == None:
-        return word
-    for tag in word_id.find_all("a"):
-        relate_list.append(tag.text)
-
-    return random.choice(relate_list)
-
-
-def random_insertion(words):
+def random_insertion(words, n):
     f_words = [w for w in words if (not isStopword(w)) and isWord(w)]
+    target = random.choices(f_words, k=n)
+    for origin in target:
+        new_syn = _get_word(origin)
+        words.insert(random.randrange(0, len(words)) - 1, new_syn)
+    return words
+
+def _get_word(target):
     Flag = True
     counter = 0
     while Flag:
-        target = random.choice(f_words)
         new_syn = get_synonym(target)
         counter += 1
-        if target == new_syn:
+        if target == new_syn and counter < 30: # TO DO : dealing with a word which has tiny set of synonyms.
             pass
-        elif counter == 30:
+        elif counter >= 30:
+            new_syn = target # TO DO : error cause by bs4
             Flag = False
         else:
             Flag = False
-    words.insert(random.randrange(0, len(words)) - 1, new_syn)
-    return words
+    return new_syn
 
 
 if __name__ == "__main__":
     Sample = "철수가 밥을 빨리 먹었다."
     print("Sample : ", Sample)
     print(tokenize(Sample))
-    print(random_insertion(Sample))
+    print(random_insertion(tokenize(Sample), 2))

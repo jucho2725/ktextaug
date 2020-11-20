@@ -10,20 +10,16 @@ Augmentation
 3.Random Deletion
 4.Synonym Replacement
 5.Back Translation
-6.Nois
+6.Noise Generation
+7.Generative model(in progress)
 """
-
-
-
 
 #######################
 ##Augmentation        #
 #######################
 
 
-def Augment(
-    text, alpha_rs=0.2, alpha_ri=0.2, alpha_rd=0.1, alpha_sr=0.2, p_rd=0.2, num_iter=9
-):
+def Augment(text, alpha_rs=0.2, alpha_ri=0.2, alpha_sr=0.2, p_rd=0.2, num_iter=9):
     translator = BackTranslate()
     noise_gen = NoiseGenerator()
     words = util.tokenize(text)
@@ -36,35 +32,35 @@ def Augment(
 
     # Add original words
     augmented_sentence["org"] = text
-
+    print('rs')
     # RS
     tmp = []
     for _ in range(num_per_tech):
         a_words = random_swap(words, n_rs)
         tmp.append(a_words)
     augmented_sentence["rs"] = tmp
-
+    print('ri')
     # RI
     tmp = []
     for _ in range(num_per_tech):
         a_words = random_insertion(words, n_ri)
         tmp.append(a_words)
     augmented_sentence["ri"] = tmp
-
+    print('rd')
     # RD
     tmp = []
     for _ in range(num_per_tech):
         a_words = random_deletion(words, p_rd)
         tmp.append(a_words)
     augmented_sentence["rd"] = tmp
-
+    print('sr')
     # SR
     tmp = []
     for _ in range(num_per_tech):
         a_words = synonym_replacement(words, n_sr)
         tmp.append(a_words)
     augmented_sentence["sr"] = tmp
-
+    print('bt')
     # Tran
     tmp = []
     a_words = translator.backtranslate(text, target_language="en")
@@ -72,7 +68,7 @@ def Augment(
     tmp.append(a_words)
     tmp.append(a_words2)
     augmented_sentence["bt"] = tmp
-
+    print('ns')
     # Noise
     tmp = []
     a_words = noise_gen.noise_generate1(text)
@@ -83,19 +79,15 @@ def Augment(
 
     return augmented_sentence
 
-
 #######################
 ##    TEST            #
 #######################
 
 if __name__ == "__main__":
-
     text = "이 문장은 변형적 데이터 증강기법의 예시 문장입니다."
-    # "가지고 있는 데이터에서 유의미한 단어 토큰만을 선별하기 위해서는 작업이 필요합니다."
 
     result = Augment(text)
-    print("Original : ", text)
-    print(len(result))
+    print(f"Original : {text}, length : {len(result)}")
     print("Random Swap : ", result["rs"])
     print("Random Insertion : ", result["ri"])
     print("Random Deletion : ", result["rd"])
