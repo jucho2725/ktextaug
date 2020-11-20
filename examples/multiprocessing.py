@@ -9,7 +9,14 @@ beautifulsoup이나 googletrans같은 패키지를 사용하는 backtranslation(
 
 
 from ktextaug.utils import tokenize
-from ktextaug import random_swap, random_deletion, random_insertion, synonym_replacement, BackTranslate, NoiseGenerator
+from ktextaug import (
+    random_swap,
+    random_deletion,
+    random_insertion,
+    synonym_replacement,
+    BackTranslate,
+    NoiseGenerator,
+)
 
 from tqdm import trange
 import pandas as pd
@@ -18,6 +25,7 @@ import multiprocessing
 
 random.seed(2020)
 translator = BackTranslate()
+
 
 def bt_proc(i, df, lang=None):
     ### back translation ###
@@ -32,6 +40,7 @@ def bt_proc(i, df, lang=None):
         tmp = {"id": df.iloc[i, 0], "review": df.iloc[i, 1], "label": df.iloc[i, 2]}
         error = True
     return tmp, error
+
 
 def ri_proc(i, df):
     ### random insertion ###

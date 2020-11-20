@@ -25,11 +25,12 @@ pip install ktextaug
 ```
 
 1. 현재 mecab 으로 토크나이저가 고정되어 있습니다. 
-
-  konlpy 의 경우 자동으로 설치가 되나, mecab-ko는 따로 직접 설치해야 합니다. (토크나이저를 직접 선택할 수 있도록 수정 예정)
+      konlpy 의 경우 자동으로 설치가 되나, mecab-ko는 따로 직접 설치해야 합니다. 
+      (토크나이저를 직접 선택할 수 있도록 수정 예정)
 
 2. 현재 nltk에 한국어 불용어 사전을 추가하여 사용중입니다. 
-     한국어 불용어 사전은 다음 링크를 참고했습니다. (불용어사전 및 nltk 설치 없이 사용가능하도록 수정 예정)
+     한국어 불용어 사전은 다음 링크를 참고했습니다. 
+     (불용어사전 및 nltk 설치 없이 사용가능하도록 수정 예정)
 
   https://www.ranks.nl/stopwords/korean/ 
 
@@ -69,7 +70,9 @@ print(result)
 ## Things to know
 
 backtranslation 기법을 위해 사용되는 googletrans 패키지에 이슈가 있습니다. (아래 링크 참고)
+
 https://github.com/ssut/py-googletrans/issues/234
+
 해당 이슈가 해결될 때 까지 간혹 "AttributeError: 'NoneType' object has no attribute 'group'" 에러가 발생할 수 있습니다.
 
 ## Author, Contact

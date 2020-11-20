@@ -38,38 +38,38 @@ def Augment(text, alpha_rs=0.2, alpha_ri=0.2, alpha_sr=0.2, p_rd=0.2, num_iter=9
 
     # Add original words
     augmented_sentence["org"] = text
-    print('rs')
+    print("rs")
     # RS
     tmp = []
     for _ in range(num_per_tech):
         a_words = random_swap(words, n_rs)
         tmp.append(a_words)
     augmented_sentence["rs"] = tmp
-    print('ri')
+    print("ri")
     # RI
     tmp = []
     for _ in range(num_per_tech):
         a_words = random_insertion(words, n_ri)
         tmp.append(a_words)
     augmented_sentence["ri"] = tmp
-    print('rd')
+    print("rd")
     # RD
     tmp = []
     for _ in range(num_per_tech):
         a_words = random_deletion(words, p_rd)
         tmp.append(a_words)
     augmented_sentence["rd"] = tmp
-    print('sr')
+    print("sr")
     # SR
     tmp = []
     for _ in range(num_per_tech):
         a_words = synonym_replacement(words, n_sr)
         tmp.append(a_words)
     augmented_sentence["sr"] = tmp
-    print('bt')
+    print("bt")
     # Tran
     tmp = []
-    try: # 오류 발생 https://github.com/ssut/py-googletrans/issues/234
+    try:  # 오류 발생 https://github.com/ssut/py-googletrans/issues/234
         a_words = translator.backtranslate(text, target_language="en")
         tmp.append(a_words)
         a_words2 = translator.backtranslate(text, target_language="ja")
@@ -78,7 +78,7 @@ def Augment(text, alpha_rs=0.2, alpha_ri=0.2, alpha_sr=0.2, p_rd=0.2, num_iter=9
         tmp.append(e)
 
     augmented_sentence["bt"] = tmp
-    print('ns')
+    print("ns")
     # Noise
     tmp = []
     a_words = noise_gen.noise_generate1(text)
@@ -88,6 +88,7 @@ def Augment(text, alpha_rs=0.2, alpha_ri=0.2, alpha_sr=0.2, p_rd=0.2, num_iter=9
     augmented_sentence["noise"] = tmp
 
     return augmented_sentence
+
 
 #######################
 ##    TEST            #
