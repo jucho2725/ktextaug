@@ -9,7 +9,7 @@ setup(
     url="https://github.com/jucho2725/ktextaug",
     download_url="https://github.com/jucho2725/ktextaug/archive/master.zip",
     install_requires=["beautifulsoup4>=4.6.0", "googletrans>=2.4.0",
-                      "pandas>=1.0.4", "konlpy>=0.5.2"],
+                      "pandas>=1.0.4", "konlpy>=0.5.2", "nltk>=3.5"],
     packages=find_packages(exclude=[]),
     keywords=["text augmentation", "korean"],
     python_requires=">=3.3",

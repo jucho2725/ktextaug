@@ -16,12 +16,21 @@ It provides transfomative text augmentation methods.
 * Googletrans>=2.4.0
 * Pandas>=1.0.4
 * konlpy>=0.5.2
+* nltk>=3.5
 
 in command line:
 
 ```
 pip install ktextaug
 ```
+
+1. 현재 mecab 으로 토크나이저가 고정되어 있습니다. 
+요구되는 패키지외에도 mecab 을 따로 설치해야 합니다.
+
+2. 현재 nltk에 한국어 불용어 사전을 추가하여 사용중입니다. 
+한국어 불용어 사전은 다음 링크를 참고했습니다.
+https://www.ranks.nl/stopwords/korean/ 
+https://bab2min.tistory.com/544
 
 ## Getting Started
 
@@ -56,10 +65,7 @@ print(result)
 
 ## Things to know
 
-1. 현재 mecab 으로 토크나이저가 고정되어 있습니다. 
-요구되는 패키지외에도 mecab 을 따로 설치해야 합니다.
-
-2. backtranslation 기법을 위해 사용되는 googletrans 패키지에 현재 문제가 있습니다.
+backtranslation 기법을 위해 사용되는 googletrans 패키지에 현재 문제가 있습니다.
 https://github.com/ssut/py-googletrans/issues/234
 해당 이슈가 해결될 때 까지 간혹 "AttributeError: 'NoneType' object has no attribute 'group'" 에러가 발생할 수 있습니다.
 
