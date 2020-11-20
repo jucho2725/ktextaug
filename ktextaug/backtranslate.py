@@ -1,3 +1,8 @@
+"""
+Author : JinUk, Cho
+Last update : 20th, Nov, 2020
+"""
+
 import six
 
 class BackTranslate:

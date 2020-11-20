@@ -1,3 +1,8 @@
+"""
+Author : JeongHyeok, Park
+Last update : 20th, Nov, 2020
+"""
+
 import random
 from .utils import isStopword, isWord, get_synonym
 

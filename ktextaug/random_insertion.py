@@ -1,3 +1,8 @@
+"""
+Author : JungHoon, Lee
+Last update : 20th, Nov, 2020
+"""
+
 import requests
 from bs4 import BeautifulSoup
 import random

@@ -1,3 +1,7 @@
+"""
+Author : JeongHyeok, Park
+Last update : 20th, Nov, 2020
+"""
 # Random SWAP
 import random
 from .utils import tokenize

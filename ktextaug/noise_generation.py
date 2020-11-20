@@ -1,3 +1,8 @@
+"""
+Author : Eddie, Jeon
+Last update : 20th, Nov, 2020
+"""
+
 import random
 import re
 
