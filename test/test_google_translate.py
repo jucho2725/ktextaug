@@ -17,7 +17,8 @@ response = client.translate_text(
     contents=["Let's try the Translation API on Google Cloud Platform."],
     mime_type="text/plain",  # mime types: text/plain, text/html
     source_language_code="en-US",  # This field is optional
-    target_language_code="es")
+    target_language_code="es",
+)
 
 # Print the translation
 for translation in response.translations:
