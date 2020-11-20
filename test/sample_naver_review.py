@@ -5,6 +5,7 @@ from tqdm import tqdm
 import random
 
 random_state = list(range(10))
+print(random.sample(random_state, 1))
 translator = BackTranslate()
 
 def preprocess(df: pd.DataFrame):
@@ -69,13 +70,13 @@ def main(train, test ,num_of_sample):
     result = result.sample(frac=1).reset_index(drop=True) # shuffle
     print(len(result))
     #
-    result.to_csv("../src/data/ratings_train_s10000.csv", index=False)
+    result.to_csv("../src/data/ratings_train_s75000.csv", index=False)
     print("done")
 
 if __name__ == '__main__':
     train_path = "../src/data/ratings_train.txt"
     test_path = "../src/data/ratings_test.txt"
-    num_of_sample = 10000
+    num_of_sample = 75000
     main(train=train_path,
          test=test_path,
          num_of_sample=num_of_sample)

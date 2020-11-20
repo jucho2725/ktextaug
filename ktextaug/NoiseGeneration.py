@@ -33,7 +33,7 @@ class NoiseGenerator(object):
 
         return ''.join(output)
 
-    def noise_generate2(self, content, prob=0.3):
+    def noise_generate2(self, content, prob=0.8):
         output = [self.jamo_split(ch) if re.match('[가-힣]', ch) else [ch, '', ''] for ch in content]
         condition = lambda xlist: ((xlist[-1] == ' ') and (xlist[-2] in self.pairs))
         output = [
