@@ -1,6 +1,6 @@
 # Random SWAP
 import random
-import aug_util as util
+from .utils import tokenize
 
 
 def random_swap(words, n):  # N-times
@@ -29,7 +29,7 @@ def swap_word(new_words):
 def main():
     ex = "아놔 첨엔 먼가 흥미진진할줄 알고 폰에 다운받아서남은 용량 부족하다고 경고 뜨는데도 꿋꿋이 쪼개서영화를 끝까지 본 내가 바보임 . 머이리 허무하고 씨지는 80년대 영구와 땡칠이같음? ㅜㅜ? 다 보자마자바로 삭제 ~ 폰용량 늘었다 ~"
     ex1 = "철수가 밥을 빨리 먹었다."
-    tok_words = util.tokenize(ex1)
+    tok_words = tokenize(ex1)
     print("tokenized")
     print(tok_words)
     alpha = 0.2

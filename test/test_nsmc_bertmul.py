@@ -1,11 +1,5 @@
-from test.Summarize import (
-    random_swap,
-    random_deletion,
-    random_insertion,
-    synonym_replacement,
-)
-
 # from ktextaug.aug_util import tokenize
+from ktextaug import random_swap, random_deletion, random_insertion, synonym_replacement, BackTranslate, NoiseGenerator
 
 from tqdm import trange
 import pandas as pd
@@ -76,7 +70,7 @@ def main(file_path="review_total.csv", save_path=None):
     # params setting
     num_per_tech = 2  # is manually set.
     sample_type = "1000"
-    sample_num = "1"
+    sample_num = "99"
     model = "multilingual"
 
     row_list_org = []

@@ -1,9 +1,7 @@
-# library import
 import six
 import random
-import ktextaug.aug_utils as util
-from ktextaug.aug_utils import tokenize
-from ktextaug.noise_generation import NoiseGenerator
+import ktextaug.utils as util
+from ktextaug import NoiseGenerator
 
 """
 Augmentation
@@ -12,7 +10,7 @@ Augmentation
 3.Random Deletion
 4.Synonym Replacement
 5.Back Translation
-6.Noise
+6.Nois
 """
 
 #######################
@@ -221,17 +219,6 @@ if __name__ == "__main__":
     text = "이 문장은 변형적 데이터 증강기법의 예시 문장입니다."
     # "가지고 있는 데이터에서 유의미한 단어 토큰만을 선별하기 위해서는 작업이 필요합니다."
 
-    """
-    RS = random_swap(word, 3)
-    RI = random_insertion(word,5)
-    RD = random_deletion(word, 0.1)
-    SR = synonym_replacement(word, 3)
-    print("Original : ",word)
-    print("Random Swap : ",RS)
-    print("Random Insertion : ",RI)
-    print("Random Deletion : ",RD)
-    print("Synonym Replacement : ",SR)
-    """
     result = Augment(text)
     print("Original : ", text)
     print(len(result))

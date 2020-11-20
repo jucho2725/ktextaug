@@ -12,7 +12,7 @@ class BackTranslate:
         return self.translate_client
 
     def backtranslate(
-        self, text: str, source_language="ko", target_language="en"
+        self, text: str, source_language: str = "ko", target_language: str = "en"
     ) -> str:
         if isinstance(text, six.binary_type):
             text = text.decode("utf-8")
@@ -25,14 +25,13 @@ class BackTranslate:
         return result["translatedText"]
 
 
-def main(): # test
+def main():  # test
     translator = BackTranslate()
     bt_model = BackTranslate(translator)
     path = "../src/data/sample.txt"
     bt_model.saver(path, target_language="ja")
-    print('test')
+    print("test")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-

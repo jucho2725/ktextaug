@@ -1,5 +1,6 @@
 import random
-import aug_util as util
+from .utils import tokenize
+
 
 def random_deletion(words, p):
     if len(words) == 1:
@@ -23,6 +24,6 @@ if __name__ == "__main__":
     sample = "철수가 밥을 빨리 먹었다."
     print("Sample : ", sample)
     print("Tokenize")
-    print(util.tokenize(sample))
+    print(tokenize(sample))
     print("Random_Deletion")
     print(random_deletion(sample, 0.3))

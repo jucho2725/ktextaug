@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import random
-import aug_util as util
+from .utils import isStopword, isWord, tokenize
 
 
 def get_synonym(word):
@@ -21,7 +21,7 @@ def get_synonym(word):
 
 
 def random_insertion(words):
-    f_words = [w for w in words if (not util.isStopword(w)) and util.isWord(w)]
+    f_words = [w for w in words if (not isStopword(w)) and isWord(w)]
     Flag = True
     counter = 0
     while Flag:
@@ -41,5 +41,5 @@ def random_insertion(words):
 if __name__ == "__main__":
     Sample = "철수가 밥을 빨리 먹었다."
     print("Sample : ", Sample)
-    print(util.tokenize(Sample))
+    print(tokenize(Sample))
     print(random_insertion(Sample))
