@@ -28,9 +28,11 @@ pip install ktextaug
 요구되는 패키지외에도 mecab 을 따로 설치해야 합니다.
 
 2. 현재 nltk에 한국어 불용어 사전을 추가하여 사용중입니다. 
-한국어 불용어 사전은 다음 링크를 참고했습니다.
-https://www.ranks.nl/stopwords/korean/ 
-https://bab2min.tistory.com/544
+  한국어 불용어 사전은 다음 링크를 참고했습니다.
+
+  https://www.ranks.nl/stopwords/korean/ 
+
+  https://bab2min.tistory.com/544
 
 ## Getting Started
 
@@ -51,21 +53,21 @@ print(result)
 
 더 자세한 사용 예시는 examples 폴더 내의 예시들을 확인해주세요.
 
-- summarize.py : 각 기법을 사용한 예시를 보여줍니다.
-- multiprocessing.py : .csv 형식의 데이터셋을 받아 증강된 데이터셋 파일을 제공해줍니다. 시간이 많이 소요되는 기법들을 multiprocessing 을 이용하처리했습니다. 
+- `summarize.py` : 각 기법을 사용한 예시를 보여줍니다.
+- `multiprocessing.py` : .csv 형식의 데이터셋을 받아 증강된 데이터셋 파일을 제공해줍니다. 시간이 많이 소요되는 기법들을 multiprocessing 을 이용하처리했습니다. 
 
-## Test it with sample data!
+## Test it with sample data
 
-데이터 증강기법의 성능을 확인하실 수 있도록, 매우 작은 데이터셋을 src/data/ 에 올려두었습니다.
+데이터 증강기법의 성능을 확인하실 수 있도록, 매우 작은 데이터셋을 `src/data/` 에 올려두었습니다.
 이 데이터는 nsmc 데이터셋의 훈련 데이터셋을 1000개 랜덤 샘플링한 결과입니다.
 (출처: https://github.com/e9t/nsmc)
 
 해당 데이터를 가지고 증강기법을 적용해서 결과의 차이를 확인해주세요!
-(.csv 파일을 다루는 예시는 multiprocessing 에서 확인 가능합니다)
+(.csv 파일을 다루는 예시는 `multiprocessing.py` 에서 확인 가능합니다)
 
 ## Things to know
 
-backtranslation 기법을 위해 사용되는 googletrans 패키지에 현재 문제가 있습니다.
+backtranslation 기법을 위해 사용되는 googletrans 패키지에 이슈가 있습니다. (아래 링크 참고)
 https://github.com/ssut/py-googletrans/issues/234
 해당 이슈가 해결될 때 까지 간혹 "AttributeError: 'NoneType' object has no attribute 'group'" 에러가 발생할 수 있습니다.
 
@@ -77,7 +79,7 @@ https://github.com/ssut/py-googletrans/issues/234
 
 관련된 문의는 cju2725@gmail.com 으로 부탁드립니다.
 
-## TODO
+## TO DO
 
 1. Generative Models 추가 예정 
 2. 동의어 불러오는 과정의 오류 해결
