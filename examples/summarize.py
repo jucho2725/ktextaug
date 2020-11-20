@@ -13,6 +13,12 @@ Augmentation
 6.Noise Generation
 7.Generative model(in progress)
 """
+"""
+Author : JinUk, Cho, JongHyeok, Park
+Last update : 20th, Nov, 2020
+
+각 Augmentation 기법에 대한 사용예시입니다.
+"""
 
 #######################
 ##Augmentation        #
