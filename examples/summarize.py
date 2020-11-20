@@ -69,10 +69,14 @@ def Augment(text, alpha_rs=0.2, alpha_ri=0.2, alpha_sr=0.2, p_rd=0.2, num_iter=9
     print('bt')
     # Tran
     tmp = []
-    a_words = translator.backtranslate(text, target_language="en")
-    a_words2 = translator.backtranslate(text, target_language="ja")
-    tmp.append(a_words)
-    tmp.append(a_words2)
+    try:
+        a_words = translator.backtranslate(text, target_language="en")
+        tmp.append(a_words)
+        a_words2 = translator.backtranslate(text, target_language="ja")
+        tmp.append(a_words2)
+    except Exception as e:
+        tmp.append(e)
+
     augmented_sentence["bt"] = tmp
     print('ns')
     # Noise
