@@ -1,12 +1,12 @@
 import six
 
-
 class BackTranslate:
     def __init__(self):
-        from google.cloud import translate_v2 as translate
+        from googletrans import Translator
 
-        self.translate_client = translate.Client()
-        self.Result = None
+        self.translate_client = Translator()
+        self.origin = None
+        self.result = None
 
     def get_translator(self):
         return self.translate_client
@@ -17,20 +17,19 @@ class BackTranslate:
         if isinstance(text, six.binary_type):
             text = text.decode("utf-8")
 
-        back = self.translate_client.translate(text, target_language=target_language)
+        self.origin = text
+        back = self.translate_client.translate(text, dest=target_language)
         result = self.translate_client.translate(
-            back["translatedText"], target_language=source_language
+            back.text, dest=source_language
         )
-        self.Result = result
-        return result["translatedText"]
+        self.result = result
+        return result.text
 
 
 def main():  # test
-    translator = BackTranslate()
-    bt_model = BackTranslate(translator)
-    path = "../src/data/sample.txt"
-    bt_model.saver(path, target_language="ja")
-    print("test")
+    bt_model = BackTranslate()
+    sent = "한국말 잘 몰라요."
+    print(bt_model.backtranslate(sent, target_language="ja"))
 
 
 if __name__ == "__main__":
