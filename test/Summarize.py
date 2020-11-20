@@ -1,9 +1,9 @@
 # library import
 import six
 import random
-import ktextaug.aug_util as util
-from ktextaug.aug_util import tokenize
-from ktextaug.NoiseGeneration import NoiseGenerator
+import ktextaug.aug_utils as util
+from ktextaug.aug_utils import tokenize
+from ktextaug.noise_generation import NoiseGenerator
 
 """
 Augmentation
