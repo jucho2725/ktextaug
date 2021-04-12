@@ -1,5 +1,8 @@
 from types import ModuleType
 from typing import Any
+import six
+
+from pathlib import Path
 
 class _BaseLazyModule(ModuleType):
     """
@@ -36,3 +39,18 @@ class _BaseLazyModule(ModuleType):
 
     def _get_module(self, module_name: str) -> ModuleType:
         raise NotImplementedError
+
+def open_text(fn, enc="utf-8"):
+    with open(fn, "r", encoding=enc) as f:
+        return [l.strip() for l in f.readlines()]
+
+def save_texts(fname, texts):
+    texts = [text.decode("utf-8") if isinstance(text, six.binary_type) else text for text in texts]
+
+    with open(fname, "w") as f:
+        for text in texts:
+            f.write(f"{text}\n")
+
+def make_dir_structure(path) -> None:
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)

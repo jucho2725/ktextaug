@@ -1,10 +1,12 @@
 """
 Author : JungHoon, Lee
-Last update : 20th, Nov, 2020
+Editor : Jin Uk, Cho
+Last update : 12th, Apr, 2020
 """
 
 import random
-from .utils import isStopword, isWord, tokenize, get_synonym
+from ..tokenization_utils import Tokenizer
+from .utils import isStopword, isWord, get_synonym
 
 
 def random_insert(words, n):
@@ -32,7 +34,8 @@ def _get_word(target):
 
 
 if __name__ == "__main__":
+    tokenizer = Tokenizer(tokenizer_or_name="komoran")
     Sample = "철수가 밥을 빨리 먹었다."
     print("Sample : ", Sample)
-    print(tokenize(Sample))
-    print(random_insert(tokenize(Sample), 2))
+    print(tokenizer.tokenize(Sample))
+    print(random_insert(tokenizer.tokenize(Sample), 2))

@@ -1,10 +1,11 @@
 """
 Author : JeongHyeok, Park
-Last update : 20th, Nov, 2020
+Editor : Jin Uk, Cho
+Last update : 12th, Apr, 2020
 """
 # Random SWAP
 import random
-from .utils import tokenize
+from ..tokenization_utils import Tokenizer
 
 
 def random_swap(words, n):  # N-times
@@ -31,11 +32,15 @@ def _swap_word(new_words):
 
 
 def main():
+    tokenizer = Tokenizer(tokenizer_or_name="komoran")
+
     ex1 = "철수가 밥을 빨리 먹었다."
-    tok_words = tokenize(ex1)
+    tok_words = tokenizer.tokenize(ex1)
     print("tokenized", tok_words)
     alpha = 0.2
-    swap_words = random_swap(tok_words, int(alpha * len(tok_words)))
+
+    # 마지막 마침표 제외 토큰 입력
+    swap_words = random_swap(tok_words[:-1], int(alpha * len(tok_words)))
     print("swapped", swap_words)
 
 if __name__ == "__main__":

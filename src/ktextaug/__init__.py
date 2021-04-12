@@ -5,13 +5,16 @@ import sys
 
 from file_utils import _BaseLazyModule
 
+# NOTE:
+# this is strongly inspired by transformers package, transformers/src/transformers/__init__.py
+
 __version__ = "0.1.5"
 
 class _LazyModule(_BaseLazyModule):
     """
     Module class that surfaces all objects but only performs associated imports when the objects are requested.
     """
-    # this is strongly inspired by transformers package, transformers/src/transformers/__init__.py
+
 
     __file__ = globals()["__file__"]
     __path__ = [os.path.dirname(__file__)]
@@ -26,9 +29,19 @@ class _LazyModule(_BaseLazyModule):
         return super().__getattr__(name)
 
 
-
 # Base objects, independent of any specific backend
 _import_structure = {
+    # Tokenizer
+    "tokenization_utils": [
+        "Tokenizer",
+    ],
+    # File utils
+    "file_utils": [
+        "open_text",
+        "save_texts",
+        "make_dir_structure"
+    ],
+
     # Models
     "transformative": [
             "backtranslate",
@@ -52,5 +65,11 @@ if TYPE_CHECKING:
         noise_generate,
     )
     from .generative import *
+    from .file_utils import (
+        open_text,
+        save_texts,
+        make_dir_structure
+    )
+    from .tokenization_utils import Tokenizer
 else:
     sys.modules[__name__] = _LazyModule(__name__, _import_structure)

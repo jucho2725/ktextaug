@@ -28,17 +28,14 @@ in command line:
 pip install ktextaug
 ```
 
+
 1. 현재 mecab 으로 토크나이저가 고정되어 있습니다. 
       konlpy 의 경우 자동으로 설치가 되나, mecab-ko는 따로 직접 설치해야 합니다. 
       (토크나이저를 직접 선택할 수 있도록 수정 예정 - 4월 중순)
 
-2. 현재 nltk에 한국어 불용어 사전을 추가하여 사용중입니다. 
-     한국어 불용어 사전은 다음 링크를 참고했습니다. 
-     (불용어사전 및 nltk 설치 없이 사용가능하도록 수정 예정 - 4월 초)
+2. 한국어 불용어 사전의 경우 다음 링크의 파일을 그대로 가져왔습니다. 
+   https://github.com/stopwords-iso/stopwords-ko/blob/master/stopwords-ko.txt
 
-  https://www.ranks.nl/stopwords/korean/ 
-
-  https://bab2min.tistory.com/544
 
 ## Getting Started
 

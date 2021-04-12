@@ -3,48 +3,22 @@ Author : Jung Hoon, Lee
 Editor : Jin Uk, Cho
 Last update : 12th, Apr, 2020
 """
-
-from pathlib import Path
-from konlpy.tag import Mecab
-from nltk.corpus import stopwords
 import requests
 from bs4 import BeautifulSoup
 import random
 
+from ..file_utils import open_text
 
-def open_text(fn, enc="utf-8"):
-    with open(fn, "r", encoding=enc) as f:
-        return "".join(f.readlines())
-
-
-def save_texts(fname, texts):
-    with open(fname, "w") as f:
-        for t in texts:
-            f.write(f"{t}\n")
-
-
-def make_dir_structure(path) -> None:
-    p = Path(path)
-    p.parent.mkdir(parents=True, exist_ok=True)
-
-
-def tokenize(text):
-    #
-    mecab = Mecab()
-    return mecab.morphs(text)
-
+stopwords = open_text("../stopwords-ko.txt")
 
 def isWord(word):
     return word.isalnum()
 
-
 def isStopword(word):
-    stopword = stopwords.words("korean")
-    if word in stopword:
+    if word in stopwords:
         return True
     else:
         return False
-
 
 def get_synonym(word):
     relate_list = []
@@ -60,7 +34,6 @@ def get_synonym(word):
         relate_list.append(tag.text)
 
     return random.choice(relate_list)
-
 
 if __name__ == "__main__":
     print(isStopword("아홉"))

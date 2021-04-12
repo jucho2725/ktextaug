@@ -1,11 +1,11 @@
 """
 Author : JeongHyeok, Park
-Last update : 20th, Nov, 2020
+Editor : Jin Uk, Cho
+Last update : 12th, Apr, 2020
 """
 
 import random
 from .utils import isStopword, isWord, get_synonym
-
 
 def synonym_replace(words, n):
     result = words[:]
