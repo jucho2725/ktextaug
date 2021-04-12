@@ -7,6 +7,10 @@ It provides transformative text augmentation methods.
 한국어 텍스트 증강 기법을 모아둔 패키지입니다.
 현재는 변형적 텍스트 증강기법만을 구현해두었으며, 생성적 텍스트 증강기법 모델 또한 추가될 예정입니다.
 
+일정
+- 4월 말 : 생성 모델 추가 (속도 이슈 해결방법 고민중)
+- 5월 : 테스트 및 첫 번째 공식 릴리즈 ?
+
 ## Installation
 
 ### Prerequisites
@@ -81,13 +85,13 @@ Update(21.04.12)
 
 이 패키지는 성균관대학교 정윤경 교수님 연구실 ING-lab 에서 만들었으며, 참여한 사람들은 다음과 같습니다
 
-박종혁, 이정훈, 전현규, 정민수, 조진욱
+조진욱, 전현규, 박종혁, 이정훈, 정민수
 
 관련된 문의는 cju2725@gmail.com 으로 부탁드립니다.
 
 ## TO DO
 
-1. Generative Models 추가 예정 (4월 중순)
+1. Generative Models 추가 예정 (4월 말)
 2. tokenizer을 선언하는 식으로 사용하도록. 기본 tokenizer이 바뀌어야함 (추가설치 필요 없는 것으로)
 3. bulk 에 대한 처리, multiprocessing 적용
 
