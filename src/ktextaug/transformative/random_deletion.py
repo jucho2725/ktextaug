@@ -4,7 +4,7 @@ Last update : 20th, Nov, 2020
 """
 
 import random
-from ktextaug.transformative.utils import tokenize
+from src.ktextaug.transformative.utils import tokenize
 
 
 def random_delete(words, p):
