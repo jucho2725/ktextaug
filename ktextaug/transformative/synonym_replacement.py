@@ -7,7 +7,7 @@ import random
 from .utils import isStopword, isWord, get_synonym
 
 
-def synonym_replacement(words, n):
+def synonym_replace(words, n):
     result = words[:]
     nonStop = [w for w in result if (not isStopword(w)) and isWord(w)]
     random.shuffle(nonStop)

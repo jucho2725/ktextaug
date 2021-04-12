@@ -7,7 +7,7 @@ import random
 from .utils import isStopword, isWord, tokenize, get_synonym
 
 
-def random_insertion(words, n):
+def random_insert(words, n):
     f_words = [w for w in words if (not isStopword(w)) and isWord(w)]
     target = random.choices(f_words, k=n)
     for origin in target:
@@ -35,4 +35,4 @@ if __name__ == "__main__":
     Sample = "철수가 밥을 빨리 먹었다."
     print("Sample : ", Sample)
     print(tokenize(Sample))
-    print(random_insertion(tokenize(Sample), 2))
+    print(random_insert(tokenize(Sample), 2))

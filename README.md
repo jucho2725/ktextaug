@@ -2,7 +2,7 @@
 
 
 Data augmentation Toolkit for Korean text.
-It provides transfomative text augmentation methods.
+It provides transformative text augmentation methods.
 
 한국어 텍스트 증강 기법을 모아둔 패키지입니다.
 현재는 변형적 텍스트 증강기법만을 구현해두었으며, 생성적 텍스트 증강기법 모델 또한 추가될 예정입니다.
@@ -11,9 +11,9 @@ It provides transfomative text augmentation methods.
 
 ### Prerequisites
 
-* Python 3.6
+* Python >= 3.6
 * Beautifulsoup4>=4.6.0
-* Googletrans>=2.4.0
+* Googletrans==3.1.0a0
 * Pandas>=1.0.4
 * konlpy>=0.5.2
 * nltk>=3.5
@@ -26,11 +26,11 @@ pip install ktextaug
 
 1. 현재 mecab 으로 토크나이저가 고정되어 있습니다. 
       konlpy 의 경우 자동으로 설치가 되나, mecab-ko는 따로 직접 설치해야 합니다. 
-      (토크나이저를 직접 선택할 수 있도록 수정 예정)
+      (토크나이저를 직접 선택할 수 있도록 수정 예정 - 4월 중순)
 
 2. 현재 nltk에 한국어 불용어 사전을 추가하여 사용중입니다. 
      한국어 불용어 사전은 다음 링크를 참고했습니다. 
-     (불용어사전 및 nltk 설치 없이 사용가능하도록 수정 예정)
+     (불용어사전 및 nltk 설치 없이 사용가능하도록 수정 예정 - 4월 초)
 
   https://www.ranks.nl/stopwords/korean/ 
 
@@ -70,10 +70,12 @@ print(result)
 ## Things to know
 
 backtranslation 기법을 위해 사용되는 googletrans 패키지에 이슈가 있습니다. (아래 링크 참고)
-
 https://github.com/ssut/py-googletrans/issues/234
-
 해당 이슈가 해결될 때 까지 간혹 "AttributeError: 'NoneType' object has no attribute 'group'" 에러가 발생할 수 있습니다.
+
+Update(21.04.12)
+- https://github.com/ssut/py-googletrans/issues/286
+- googletrans==3.1.0a0 을 설치시 문제가 해결된다고 합니다. 4월 12일 기준 테스트 완료
 
 ## Author, Contact
 
@@ -85,10 +87,9 @@ https://github.com/ssut/py-googletrans/issues/234
 
 ## TO DO
 
-1. Generative Models 추가 예정 
-2. 동의어 불러오는 과정의 오류 해결
-3. tokenizer 받기 (기본은 설치 안해도 되는 간단한걸로)
-4. 결과 해석해주는 기능
+1. Generative Models 추가 예정 (4월 중순)
+2. tokenizer을 선언하는 식으로 사용하도록. 기본 tokenizer이 바뀌어야함 (추가설치 필요 없는 것으로)
+3. bulk 에 대한 처리, multiprocessing 적용
 
 ## Acknowledgement
 

@@ -4,10 +4,10 @@ Last update : 20th, Nov, 2020
 """
 
 import random
-from .utils import tokenize
+from ktextaug.transformative.utils import tokenize
 
 
-def random_deletion(words, p):
+def random_delete(words, p):
     if len(words) == 1:
         return words
 
@@ -31,4 +31,4 @@ if __name__ == "__main__":
     print("Tokenize")
     print(tokenize(sample))
     print("Random_Deletion")
-    print(random_deletion(sample, 0.3))
+    print(random_delete(sample, 0.3))
