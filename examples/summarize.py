@@ -1,5 +1,5 @@
-from src import ktextaug as util
-from src.ktextaug import *
+from ktextaug.tokenization_utils import Tokenizer
+from ktextaug.transformative import *
 
 """
 Augmentation
@@ -13,7 +13,7 @@ Augmentation
 """
 """
 Author : JinUk, Cho, JongHyeok, Park
-Last update : 20th, Nov, 2020
+Last update : 20th, Apr, 2020
 
 각 Augmentation 기법에 대한 사용예시입니다.
 """
@@ -24,9 +24,8 @@ Last update : 20th, Nov, 2020
 
 
 def Augment(text, alpha_rs=0.2, alpha_ri=0.2, alpha_sr=0.2, p_rd=0.2, num_iter=9):
-    translator = BackTranslate()
-    noise_gen = NoiseGenerator()
-    words = util.tokenize(text)
+    tokenizer = Tokenizer(tokenizer_or_name="komoran")
+    words = tokenizer.tokenize(text)
     num_words = len(words)
     augmented_sentence = {}
     num_per_tech = int(num_iter / 4) + 1
@@ -47,40 +46,37 @@ def Augment(text, alpha_rs=0.2, alpha_ri=0.2, alpha_sr=0.2, p_rd=0.2, num_iter=9
     # RI
     tmp = []
     for _ in range(num_per_tech):
-        a_words = random_insertion(words, n_ri)
+        a_words = random_insert(words, n_ri)
         tmp.append(a_words)
     augmented_sentence["ri"] = tmp
     print("rd")
     # RD
     tmp = []
     for _ in range(num_per_tech):
-        a_words = random_deletion(words, p_rd)
+        a_words = random_delete(words, p_rd)
         tmp.append(a_words)
     augmented_sentence["rd"] = tmp
     print("sr")
     # SR
     tmp = []
     for _ in range(num_per_tech):
-        a_words = synonym_replacement(words, n_sr)
+        a_words = synonym_replace(words, n_sr)
         tmp.append(a_words)
     augmented_sentence["sr"] = tmp
     print("bt")
     # Tran
     tmp = []
-    try:  # 오류 발생 https://github.com/ssut/py-googletrans/issues/234
-        a_words = translator.backtranslate(text, target_language="en")
-        tmp.append(a_words)
-        a_words2 = translator.backtranslate(text, target_language="ja")
-        tmp.append(a_words2)
-    except Exception as e:
-        tmp.append(e)
+    a_words = backtranslate(text, target_language="en")
+    tmp.append(a_words)
+    a_words2 =backtranslate(text, target_language="ja")
+    tmp.append(a_words2)
 
     augmented_sentence["bt"] = tmp
     print("ns")
     # Noise
     tmp = []
-    a_words = noise_gen.noise_generate1(text)
-    a_words2 = noise_gen.noise_generate2(text)
+    a_words = noise_generate(text, )
+    a_words2 = noise_generate(text)
     tmp.append(a_words)
     tmp.append(a_words2)
     augmented_sentence["noise"] = tmp

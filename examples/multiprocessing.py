@@ -9,13 +9,7 @@ beautifulsoup이나 googletrans같은 패키지를 사용하는 backtranslation(
 
 
 from ktextaug.tokenization_utils import Tokenizer
-from ktextaug.transformative import (
-    random_swap,
-    random_deletion,
-    random_insertion,
-    synonym_replacement,
-    backtranslate,
-)
+from ktextaug.transformative import *
 
 from tqdm import trange
 import pandas as pd
@@ -23,8 +17,7 @@ import random
 import multiprocessing
 
 random.seed(2020)
-translator = BackTranslate()
-
+tokenizer = Tokenizer(tokenizer_or_name="komoran")
 
 def bt_proc(i, df, lang=None):
     ### back translation ###
@@ -32,7 +25,7 @@ def bt_proc(i, df, lang=None):
     try:
         tmp = {
             "id": df.iloc[i, 0],
-            "review": translator.backtranslate(df.iloc[i, 1], dest=lang),
+            "review": backtranslate(df.iloc[i, 1], dest=lang),
             "label": df.iloc[i, 2],
         }
     except Exception as e:
@@ -44,11 +37,11 @@ def bt_proc(i, df, lang=None):
 def ri_proc(i, df):
     ### random insertion ###
     try:
-        tok_words = tokenize(df.iloc[i, 1])
+        tok_words = tokenizer.tokenize(df.iloc[i, 1])
         n_ri = max(1, int(0.1 * len(tok_words)))
         tmp = {
             "id": df.iloc[i, 0],
-            "review": "|".join(random_insertion(tok_words, n_ri)),
+            "review": "|".join(random_insert(tok_words, n_ri)),
             "label": df.iloc[i, 2],
         }
     except Exception as e:
@@ -65,11 +58,11 @@ def ri_proc(i, df):
 
 def sr_proc(i, df):
     try:
-        tok_words = tokenize(df.iloc[i, 1])
+        tok_words = tokenizer.tokenize(df.iloc[i, 1])
         n_sr = max(1, int(0.1 * len(tok_words)))
         tmp = {
             "id": df.iloc[i, 0],
-            "review": "|".join(synonym_replacement(tok_words, n_sr)),
+            "review": "|".join(synonym_replace(tok_words, n_sr)),
             "label": df.iloc[i, 2],
         }
     except Exception as e:
@@ -100,7 +93,7 @@ def main(file_path="review_total.csv", save_path=None):
         try:
             tmp = {
                 "id": df.iloc[i, 0],
-                "review": "|".join(tokenize(df.iloc[i, 1])),
+                "review": "|".join(tokenizer.tokenize(df.iloc[i, 1])),
                 "label": df.iloc[i, 2],
             }
             row_list_org.append(tmp)
@@ -157,7 +150,7 @@ def main(file_path="review_total.csv", save_path=None):
     row_list_bt = []
     for i in trange(len(df_nottok_bt), desc=f"Tokenize from backtranslated data: "):
         try:
-            review = "|".join(tokenize(df_nottok_bt.iloc[i, 1]))
+            review = "|".join(tokenizer.tokenize(df_nottok_bt.iloc[i, 1]))
             tmp = {
                 "id": df_nottok_bt.iloc[i, 0],
                 "review": review,

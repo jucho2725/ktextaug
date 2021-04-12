@@ -2,18 +2,21 @@ from setuptools import setup, find_packages
 
 setup(
     name="ktextaug",
-    version="0.1.5",
+    version="0.1.6a",
     description="data augmentation tool for Korean",
     author="jinuk.cho, eddie.jeon, jonghyeok.park, junghoon.lee, minsu.jeong. all from ING Lab, SKKU.",
     author_email="cju2725@gmail.com",
     url="https://github.com/jucho2725/ktextaug",
     download_url="https://github.com/jucho2725/ktextaug/archive/master.zip",
-    install_requires=["beautifulsoup4>=4.6.0", "googletrans==3.1.0a0",
-                      "pandas>=1.0.4", "konlpy>=0.5.2", "nltk>=3.5"],
-    packages=find_packages(exclude=[]),
+    install_requires=["beautifulsoup4>=4.6.0", "googletrans==3.1.0a0", "konlpy>=0.5.2", "pykomoran>=0.1.5"],
+    packages=find_packages(exclude=["DataAug_CNN, DataAug_CNN.*, test, etc, etc.*"]),
     keywords=["text augmentation", "korean"],
     python_requires=">=3.6",
     package_data={},
+    extras_require={
+        'dev': ['pytest', 'flake8'],
+    },
+    include_package_data=True,
     zip_safe=False,
     classifiers=[
         "Programming Language :: Python :: 3",

@@ -16,40 +16,49 @@ It provides transformative text augmentation methods.
 ### Prerequisites
 
 * Python >= 3.6
-* Beautifulsoup4>=4.6.0
-* Googletrans==3.1.0a0
-* Pandas>=1.0.4
 * konlpy>=0.5.2
-* nltk>=3.5
+* PyKomoran>=0.1.5
+* Beautifulsoup4>=4.6.0 # for synonym search
+* Googletrans==3.1.0a0   # for backtranslation
 
-in command line:
+예제를 테스트하기 위해선 pandas, parmap 이 필요할 수 있습니다.
+
+command line 설치 예시:
 
 ```
 pip install ktextaug
 ```
 
 
-1. 현재 mecab 으로 토크나이저가 고정되어 있습니다. 
-      konlpy 의 경우 자동으로 설치가 되나, mecab-ko는 따로 직접 설치해야 합니다. 
-      (토크나이저를 직접 선택할 수 있도록 수정 예정 - 4월 중순)
-
-2. 한국어 불용어 사전의 경우 다음 링크의 파일을 그대로 가져왔습니다. 
-   https://github.com/stopwords-iso/stopwords-ko/blob/master/stopwords-ko.txt
-
-
 ## Getting Started
 
 ktextaug를 사용하는 간단한 예제입니다. 
 
-```
-import ktextaug
+```python
+from ktextaug.transfomative import random_swap
 
 text = "이 문장은 변형적 데이터 증강기법의 예시 문장입니다."
-tokenizer = bring_it_your_own # 토크나이저는 어떤 토크나이저를 사용하더라도 상관없습니다.
-tokens = tokenizer.tokenize(text)
-result = ktextaug.random_swap(tokens, 2) # 토큰 시퀀스 내 두 단어의 위치를 변경하는 작업(random swap)을 2회 시행합니다. 
+tokenizer = bring_it_your_own   # 토크나이저는 어떤 토크나이저를 사용하더라도 상관없습니다.
+tokens = tokenizer.tokenize(text) 
+result = random_swap(tokens, 2) # 토큰 시퀀스 내 두 단어의 위치를 변경하는 작업(random swap)을 2회 시행합니다. 
 print(result)
-# ['이', '문장', '은', '예시', '적', '데이터', '기법', '증강', '의', '문장', '변형', '입니다', '.']
+>>> ['이', '문장', '은', '예시', '적', '데이터', '기법', '증강', '의', '문장', '변형', '입니다', '.']
+```
+
+형태소 분석기(토크나이저)는 mecab 과 komoran을 사용할 수 있습니다. 두 토크나이저 모두 별도의 설치과정이 필요하니 아래 링크를 참고해주세요. 원하는 토크나이저를 사용할 수도 있습니다.
+
+- Mecab 설치 방법 [[링크]](https://sikaleo.tistory.com/104) - fabric 으로 쉽게 설치
+- PyKomoran 설치 방법 [[링크]](https://komorandocs.readthedocs.io/ko/latest/firststep/installation.html)
+
+```python
+from ktextaug.tokenization_utils import Tokenizer
+
+tokenizer = Tokenizer(tokenizer_or_name="komoran") # mecab
+
+# OR you can use your own tokenizer(should be module, neither function nor object)
+your_own_tokenizer = ABC # module
+tokenizer = Tokenizer(tokenizer_or_name=your_own_tokenizer) 
+
 ```
 
 ## More examples
@@ -57,7 +66,7 @@ print(result)
 더 자세한 사용 예시는 examples 폴더 내의 예시들을 확인해주세요.
 
 - `summarize.py` : 각 기법을 사용한 예시를 보여줍니다.
-- `multiprocessing.py` : .csv 형식의 데이터셋을 받아 증강된 데이터셋 파일을 제공해줍니다. 시간이 많이 소요되는 기법들을 multiprocessing 을 이용하처리했습니다. 
+- `multiprocessing.py` : .csv 형식의 데이터셋을 받아 증강된 데이터셋 파일을 제공해줍니다. 시간이 많이 소요되는 기법들을 multiprocessing 을 이용하여 처리했습니다. 
 
 ## Test it with sample data
 
@@ -70,13 +79,14 @@ print(result)
 
 ## Things to know
 
-backtranslation 기법을 위해 사용되는 googletrans 패키지에 이슈가 있습니다. (아래 링크 참고)
-https://github.com/ssut/py-googletrans/issues/234
-해당 이슈가 해결될 때 까지 간혹 "AttributeError: 'NoneType' object has no attribute 'group'" 에러가 발생할 수 있습니다.
+1. 한국어 불용어 사전의 경우 다음 링크의 파일을 그대로 가져왔습니다. 
+   https://github.com/stopwords-iso/stopwords-ko/blob/master/stopwords-ko.txt
 
-Update(21.04.12)
-- https://github.com/ssut/py-googletrans/issues/286
-- googletrans==3.1.0a0 을 설치시 문제가 해결된다고 합니다. 4월 12일 기준 테스트 완료
+2. backtranslation 기법을 위해 사용되는 googletrans 패키지에 이슈가 있습니다. (아래 링크 참고)
+   https://github.com/ssut/py-googletrans/issues/234
+   해당 이슈가 해결될 때 까지 간혹 "AttributeError: 'NoneType' object has no attribute 'group'" 에러가 발생할 수 있습니다.
+
+   Update(21.04.12) googletrans==3.1.0a0 을 설치시 문제가 해결된다고 합니다. [(링크)](https://github.com/ssut/py-googletrans/issues/286) 4월 12일 기준 테스트 완료
 
 ## Author, Contact
 

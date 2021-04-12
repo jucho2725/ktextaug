@@ -27,7 +27,8 @@ def _backtrans_single(text, target_language):
     if isinstance(text, six.binary_type):
         text = text.decode("utf-8")
     source_language =  translate_client.detect(text).lang
-    assert source_language == target_language, "Source language is deteted as same as target. You should select different target language for backtranslation."
+    print(source_language, target_language)
+    assert source_language != target_language, "Source language is deteted as same as target. You should select different target language for backtranslation."
 
     back = translate_client.translate(text, dest=target_language)
     result = translate_client.translate(
@@ -40,7 +41,7 @@ def _backtrans_bulk(sents, target_language):
     if isinstance(text, six.binary_type):
         sents = [t.decode("utf-8") for t in sents]
     source_language = translate_client.detect(text).lang
-    assert source_language == target_language, "Source language is deteted as same as target. You should select different target language for backtranslation."
+    assert source_language != target_language, "Source language is deteted as same as target. You should select different target language for backtranslation."
 
     back = translate_client.translate(sents, dest=target_language)
     back_sents = [b.text for b in back]

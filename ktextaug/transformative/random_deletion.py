@@ -4,7 +4,7 @@ Last update : 20th, Nov, 2020
 """
 
 import random
-from src.ktextaug.transformative.utils import tokenize
+from ..tokenization_utils import Tokenizer
 
 
 def random_delete(words, p):
@@ -26,9 +26,9 @@ def random_delete(words, p):
 
 
 if __name__ == "__main__":
-    sample = "철수가 밥을 빨리 먹었다."
-    print("Sample : ", sample)
-    print("Tokenize")
-    print(tokenize(sample))
+    tokenizer = Tokenizer(tokenizer_or_name="komoran")
+    Sample = "철수가 밥을 빨리 먹었다."
+    print("Sample : ", Sample)
+    print(tokenizer.tokenize(Sample))
     print("Random_Deletion")
-    print(random_delete(sample, 0.3))
+    print(random_delete(tokenizer.tokenize(Sample), 0.3))

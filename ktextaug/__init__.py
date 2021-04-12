@@ -3,7 +3,7 @@ import importlib
 import os
 import sys
 
-from file_utils import _BaseLazyModule
+from .file_utils import _BaseLazyModule
 
 # NOTE:
 # this is strongly inspired by transformers package, transformers/src/transformers/__init__.py
@@ -35,12 +35,13 @@ _import_structure = {
     "tokenization_utils": [
         "Tokenizer",
     ],
-    # File utils
-    "file_utils": [
-        "open_text",
-        "save_texts",
-        "make_dir_structure"
-    ],
+    # # File utils
+    # "file_utils": [
+    #     "open_text",
+    #     "save_texts",
+    #     "make_dir_structure",
+    #     "_BaseLazyModule"
+    # ],
 
     # Models
     "transformative": [

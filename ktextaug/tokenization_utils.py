@@ -8,9 +8,10 @@ class Tokenizer:
             self.tokenizer = tokenizer_or_name
             self.tokenizer_name = None
         else:
-            assert tokenizer_or_name == "komoran" or tokenizer_or_name == "mecab", "Only 'komoran' and 'mecab' is acceptable."
+            print(tokenizer_or_name)
+            assert tokenizer_or_name.lower() == "komoran" or tokenizer_or_name.lower() == "mecab", "Only 'komoran' and 'mecab' is acceptable."
             if tokenizer_or_name == "komoran":
-                self.tokenizer = Komoran()
+                self.tokenizer = Komoran("STABLE")
             elif tokenizer_or_name == "mecab":
                 self.tokenizer = Mecab()
             self.tokenizer_name = tokenizer_or_name

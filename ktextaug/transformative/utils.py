@@ -9,7 +9,7 @@ import random
 
 from ..file_utils import open_text
 
-stopwords = open_text("../stopwords-ko.txt")
+stopwords = open_text("ktextaug/stopwords-ko.txt")
 
 def isWord(word):
     return word.isalnum()
