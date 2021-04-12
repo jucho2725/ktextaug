@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="ktextaug",
-    version="0.1.4",
+    version="0.1.5",
     description="data augmentation tool for Korean",
     author="jinuk.cho, eddie.jeon, jonghyeok.park, junghoon.lee, minsu.jeong. all from ING Lab, SKKU.",
     author_email="cju2725@gmail.com",
@@ -12,7 +12,7 @@ setup(
                       "pandas>=1.0.4", "konlpy>=0.5.2", "nltk>=3.5"],
     packages=find_packages(exclude=[]),
     keywords=["text augmentation", "korean"],
-    python_requires=">=3.3",
+    python_requires=">=3.6",
     package_data={},
     zip_safe=False,
     classifiers=[
@@ -23,5 +23,6 @@ setup(
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
     ],
 )

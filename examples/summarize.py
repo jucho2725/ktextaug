@@ -1,7 +1,5 @@
-import six
-import random
-import ktextaug.utils as util
-from ktextaug import *
+from src import ktextaug as util
+from src.ktextaug import *
 
 """
 Augmentation

@@ -1,3 +1,9 @@
+"""
+Author : Jung Hoon, Lee
+Editor : Jin Uk, Cho
+Last update : 12th, Apr, 2020
+"""
+
 from pathlib import Path
 from konlpy.tag import Mecab
 from nltk.corpus import stopwords
@@ -23,6 +29,7 @@ def make_dir_structure(path) -> None:
 
 
 def tokenize(text):
+    #
     mecab = Mecab()
     return mecab.morphs(text)
 

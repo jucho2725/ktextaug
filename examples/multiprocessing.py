@@ -8,14 +8,13 @@ beautifulsoup이나 googletrans같은 패키지를 사용하는 backtranslation(
 """
 
 
-from ktextaug.utils import tokenize
-from ktextaug import (
+from ktextaug.tokenization_utils import Tokenizer
+from ktextaug.transformative import (
     random_swap,
     random_deletion,
     random_insertion,
     synonym_replacement,
-    BackTranslate,
-    NoiseGenerator,
+    backtranslate,
 )
 
 from tqdm import trange
@@ -233,7 +232,7 @@ def main(file_path="review_total.csv", save_path=None):
 
     ### matching same id from noise file ###
     train_df = pd.read_table(
-        "../src/data/ratings_train.txt", encoding="utf-8"
+        "data/ratings_train.txt", encoding="utf-8"
     )  # 150000 data
     ndf = pd.read_csv("../etc/src/data/noise_data.csv")
     sampled_df = train_df.loc[train_df["id"].isin(df["id"].tolist())]
@@ -270,5 +269,5 @@ def main(file_path="review_total.csv", save_path=None):
 
 
 if __name__ == "__main__":
-    path = "../src/data/nsmc_train_s1000.csv"
+    path = "data/nsmc_train_s1000.csv"
     main(file_path=path)
