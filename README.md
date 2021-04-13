@@ -6,6 +6,8 @@ It provides transformative text augmentation methods.
 
 한국어 텍스트 증강 기법을 모아둔 패키지입니다.
 현재는 변형적 텍스트 증강기법만을 구현해두었으며, 생성적 텍스트 증강기법 모델 또한 추가될 예정입니다.
+transformers 패키지 내부를 참고하면서 만들고 있습니다.
+
 
 현재 버젼: 0.1.8
 - 패키지 내 모든 함수와 모듈을 테스트하였습니다.
