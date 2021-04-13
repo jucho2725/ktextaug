@@ -107,7 +107,7 @@ noise_generation.noise_generate(text, prob=1., option="jamo_split")
 [phonological_change, prob=1] 행복한 가정은 모두가 달맜지만, 불행한 가정은 모두 저마다의 이유로 불행하다.
 ```
 
-## 기타
+#### 기타
 - 'phonological_change' 방법은 현재 비음화, 유음화, 구개음화, 연음 등을 구현하고 있으며, 추후 확대될 예정입니다(누락된 규칙이 있을 수 있으니, 발견 시 피드백 주시면 감사하겠습니다).
 - prob는 변형 가능한 글자들에 대해서 해당 확률만큼 확률적으로 실행됩니다(prob가 1이라고 해서 모든 텍스트가 변경되는 것이 아닙니다).
 
