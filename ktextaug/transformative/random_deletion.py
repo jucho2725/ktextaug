@@ -8,9 +8,17 @@ from ..tokenization_utils import Tokenizer
 
 
 def random_delete(words, p):
+    # check if there is a punctuation mark
+    punctuations = [".", ",", ":", ";", "?", "!"]
+    if words[-1] in punctuations:
+        keep = words[-1]
+        words = words[:-1].copy()
+    else:
+        keep = None
+        words = words.copy()
+
     if len(words) == 1:
         return words
-
     new_words = []
 
     for word in words:
@@ -22,7 +30,7 @@ def random_delete(words, p):
         rand_int = random.randint(0, len(words) - 1)
         return " ".join([words[rand_int]])
 
-    return new_words
+    return new_words + keep
 
 
 if __name__ == "__main__":

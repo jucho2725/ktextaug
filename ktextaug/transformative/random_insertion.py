@@ -10,12 +10,21 @@ from .utils import isStopword, isWord, get_synonym
 
 
 def random_insert(words, n):
+    # check if there is a punctuation mark
+    punctuations = [".", ",", ":", ";", "?", "!"]
+    if words[-1] in punctuations:
+        keep = words[-1]
+        words = words[:-1].copy()
+    else:
+        keep = None
+        words = words.copy()
+
     f_words = [w for w in words if (not isStopword(w)) and isWord(w)]
     target = random.choices(f_words, k=n)
     for origin in target:
         new_syn = _get_word(origin)
         words.insert(random.randrange(0, len(words)) - 1, new_syn)
-    return words
+    return words + keep
 
 def _get_word(target):
     Flag = True

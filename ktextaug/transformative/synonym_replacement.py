@@ -8,6 +8,15 @@ import random
 from .utils import isStopword, isWord, get_synonym
 
 def synonym_replace(words, n):
+    # check if there is a punctuation mark
+    punctuations = [".", ",", ":", ";", "?", "!"]
+    if words[-1] in punctuations:
+        keep = words[-1]
+        words = words[:-1].copy()
+    else:
+        keep = None
+        words = words.copy()
+
     result = words[:]
     nonStop = [w for w in result if (not isStopword(w)) and isWord(w)]
     random.shuffle(nonStop)
@@ -23,4 +32,4 @@ def synonym_replace(words, n):
 
     sentence = " ".join(new_word)
     result = sentence.split(" ")
-    return result
+    return result + keep

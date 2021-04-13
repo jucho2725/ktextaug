@@ -9,10 +9,23 @@ from ..tokenization_utils import Tokenizer
 
 
 def random_swap(words, n):  # N-times
-    new_words = words.copy()
+    """
+    :param words:
+    :param n:
+    :return:
+    """
+    # check if there is a punctuation mark
+    punctuations = [".", ",", ":", ";", "?", "!"]
+    if words[-1] in punctuations:
+        keep = words[-1]
+        new_words = words[:-1].copy()
+    else:
+        keep = None
+        new_words = words.copy()
+
     for _ in range(n):
         new_words = _swap_word(new_words)
-    return new_words
+    return new_words + keep
 
 
 def _swap_word(new_words):
