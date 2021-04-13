@@ -2,18 +2,18 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def synonym_replace(corpus, tokenizer,rng, n_rep,**kwargs):
+def synonym_replace(text, tokenizer, rng, n_rep, **kwargs):
     # check if there is a punctuation mark
-    if isinstance(corpus, str):
-        corpus = tokenizer.tokenize(corpus)
+    if isinstance(text, str):
+        text = tokenizer.tokenize(text)
 
     punctuations = [".", ",", ":", ";", "?", "!"]
-    if corpus[-1] in punctuations:
-        keep = corpus[-1]
-        words = corpus[:-1].copy()
+    if text[-1] in punctuations:
+        keep = text[-1]
+        words = text[:-1].copy()
     else:
         keep = None
-        words = corpus.copy()
+        words = text.copy()
 
     result = words[:]
     nonStop = [w for w in result if (not isStopword(w)) and isWord(w)]

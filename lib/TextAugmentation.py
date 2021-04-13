@@ -4,10 +4,15 @@ from lib.augmentations.random_process import random_delete, random_swap
 from lib.augmentations.synonym_replacement import synonym_replace
 from lib.augmentations.noise_addition import noise_add
 from lib.augmentations.back_translation import back_translate
+from multiprocessing import Pool, cpu_count
+from functools import partial
+from tqdm.auto import tqdm
+
 VOCABULARY = 'tokenization/vocabulary/basic_vocabulary.txt'
 
 # ['random_deletion', 'random_swap', 'synonym_replacement', 'noise_add', 'back-translation']
 # TODO: tokenization wrapping for 'mecab', 'kkma' etc.
+
 
 
 class TextAugmentation(object):
@@ -20,16 +25,25 @@ class TextAugmentation(object):
             'back-translation':back_translate,
         }
 
-    def generate(self, corpus, prob=0.1, tokenizer=None, do_lower_case=False, mode='random_deletion',
-                 n_swap=1, n_rep=1, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'], target_language='en'):
-        rng = random.Random()
+    def generate(self, corpus, prob=0.1, tokenizer=None, do_lower_case=False, mode='random_deletion', rng=None,
+                 n_swap=1, n_rep=1, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'], target_language='en', num_processes=1):
+        if rng is None:
+            rng = random.Random()
+
         if tokenizer is None:
             tokenizer = BertTokenizer(VOCABULARY, do_lower_case=do_lower_case)
 
-        corpus = self.augmentions[mode](corpus, prob=prob, tokenizer=tokenizer, rng=rng,
-                                        n_swap=n_swap, n_rep=n_rep, noise_mode=noise_mode, target_language=target_language)
+        if isinstance(corpus, list):
+            pool = Pool(processes=num_processes)
+            func = partial(self.augmentions[mode], prob=prob, tokenizer=tokenizer, rng=rng,
+                           n_swap=n_swap, n_rep=n_rep, noise_mode=noise_mode, target_language=target_language)
 
-        return corpus
+            return [r for r in tqdm(pool.imap(func=func, iterable=corpus), total=len(corpus))]
+
+        elif isinstance(corpus, str):
+            corpus = self.augmentions[mode](corpus, prob=prob, tokenizer=tokenizer, rng=rng,
+                                        n_swap=n_swap, n_rep=n_rep, noise_mode=noise_mode, target_language=target_language)
+            return corpus
 
 
 if __name__ == '__main__':

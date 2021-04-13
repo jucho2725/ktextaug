@@ -120,18 +120,18 @@ def phonological_process(content, prob=0.3):
     return content
 
 
-def noise_add(corpus, prob, tokenizer, rng, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'],
+def noise_add(text, prob, tokenizer, rng, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'],
               **kwargs):
-    if isinstance(corpus, list):
-        corpus = tokenizer.convert_tokens_to_string(corpus)
+    if isinstance(text, list):
+        text = tokenizer.convert_tokens_to_string(text)
 
     fns_dict = {'jamo_split': splitting_noise,
                 'vowel_change': vowel_noise,
                 'phonological_change': phonological_process}
 
-    noised_corpus = corpus
+    noised_corpus = text
     idx = 0
-    while noised_corpus == corpus or idx < len(noise_mode):
-        noised_corpus = fns_dict[rng.sample(noise_mode, k=1)[0]](corpus, prob=prob)
+    while noised_corpus == text or idx < len(noise_mode):
+        noised_corpus = fns_dict[rng.sample(noise_mode, k=1)[0]](text, prob=prob)
         idx += 1
     return noised_corpus

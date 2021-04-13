@@ -8,13 +8,13 @@ origin = None
 result = None
 
 
-def back_translate(corpus, target_language='en', **kwargs):
-    assert isinstance(corpus, list) or isinstance(corpus, str), "Source input should be string, or list of string."
-    if isinstance(corpus, list):
-        return _backtrans_bulk(corpus, target_language)
+def back_translate(text, target_language='en', **kwargs):
+    assert isinstance(text, list) or isinstance(text, str), "Source input should be string, or list of string."
+    if isinstance(text, list):
+        return _backtrans_bulk(text, target_language)
     else:
-        return _backtrans_single(corpus, target_language)
-    return corpus
+        return _backtrans_single(text, target_language)
+    return text
 
 
 def _backtrans_single(text, target_language):

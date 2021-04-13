@@ -28,22 +28,22 @@ def random_delete(corpus, prob, tokenizer, rng, **kwargs):
     return new_words + [keep]
 
 
-def random_swap(corpus, tokenizer, rng, n_swap, **kwargs):
+def random_swap(text, tokenizer, rng, n_swap, **kwargs):
     """
     :param words:
     :param n:
     :return:
     """
     # check if there is a punctuation mark
-    if isinstance(corpus, str):
-        corpus = tokenizer.tokenize(corpus)
+    if isinstance(text, str):
+        text = tokenizer.tokenize(text)
 
-    if corpus[-1] in PUNC:
-        keep = corpus[-1]
-        new_words = corpus[:-1].copy()
+    if text[-1] in PUNC:
+        keep = text[-1]
+        new_words = text[:-1].copy()
     else:
         keep = None
-        new_words = corpus.copy()
+        new_words = text.copy()
     for _ in range(n_swap):
         new_words = _swap_word(new_words, rng)
     return new_words + [keep]
