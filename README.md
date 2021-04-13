@@ -17,6 +17,7 @@ transformers 패키지 내부를 참고하면서 만들고 있습니다.
 일정
 - 4월 말 : 생성 모델 추가 (속도 이슈 해결방법 고민중)
 - 5월 : 테스트 및 첫 번째 공식 릴리즈 ?
+  (부족한 부분이 많습니다! )
 
 ## Installation
 
@@ -101,19 +102,23 @@ tokenizer = Tokenizer(tokenizer_or_name=your_own_tokenizer)
 
    Update(21.04.12) googletrans==3.1.0a0 을 설치시 문제가 해결된다고 합니다. [(링크)](https://github.com/ssut/py-googletrans/issues/286) 4월 12일 기준 테스트 완료
 
-## Author, Contact
+## Contribution
 
-이 패키지는 성균관대학교 정윤경 교수님 연구실 ING-lab 에서 만들었으며, 참여한 사람들은 다음과 같습니다
+이 패키지는 성균관대학교 정윤경 교수님 연구실 ING-lab 에서 진행한 프로젝트로 시작되었으며,
+당시 참여한 사람들은 다음과 같습니다.
+- 조진욱, 전현규, 박종혁, 이정훈, 정민수
 
-조진욱, 전현규, 박종혁, 이정훈, 정민수
+보다시피 아직 패키지에 부족한 부분이 많습니다.
+Contributor가 되고 싶으시다면, 언제든 issue, PR, 등을 부탁드립니다 :)
 
-관련된 문의는 cju2725@gmail.com 으로 부탁드립니다.
+Contact: cju2725@gmail.com
 
 ## TO DO
 
 1. Generative Models 추가 예정 (4월 말)
 2. 기본 tokenizer이 바뀌어야함 (추가설치 필요 없는 것으로)
 3. bulk 에 대한 처리, multiprocessing 적용
+4. synonym search 동의어 못찾을시 문제 해결
 
 ## Acknowledgement
 
