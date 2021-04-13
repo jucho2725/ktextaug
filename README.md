@@ -17,7 +17,7 @@ transformers 패키지 내부를 참고하면서 만들고 있습니다.
 일정
 - 4월 말 : 생성 모델 추가 (속도 이슈 해결방법 고민중)
 - 5월 : 테스트 및 첫 번째 공식 릴리즈 ?
-  (부족한 부분이 많습니다! )
+  
 
 ## Installation
 
@@ -154,6 +154,7 @@ Contact: cju2725@gmail.com
 2. 기본 tokenizer이 바뀌어야함 (추가설치 필요 없는 것으로)
 3. bulk 에 대한 처리, multiprocessing 적용
 4. synonym search 동의어 못찾을시 문제 해결
+5. documentation 작성 
 
 ## Acknowledgement
 
