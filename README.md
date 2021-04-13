@@ -111,7 +111,8 @@ noise_generation.noise_generate(text, prob=1., option="jamo_split")
 - 'phonological_change' 방법은 현재 비음화, 유음화, 구개음화, 연음 등을 구현하고 있으며, 추후 확대될 예정입니다(누락된 규칙이 있을 수 있으니, 발견 시 피드백 주시면 감사하겠습니다).
 - prob는 변형 가능한 글자들에 대해서 해당 확률만큼 확률적으로 실행됩니다(prob가 1이라고 해서 모든 텍스트가 변경되는 것이 아닙니다).
 
-더 자세한 사용 예시는 examples 폴더 내의 예시들을 확인해주세요.
+
+**더 자세한 사용 예시는 examples 폴더 내의 예시들을 확인해주세요.**
 
 - `summarize.py` : 각 기법을 사용한 예시를 보여줍니다.
 - `multiprocessing.py` : .csv 형식의 데이터셋을 받아 증강된 데이터셋 파일을 제공해줍니다. 시간이 많이 소요되는 기법들을 multiprocessing 을 이용하여 처리했습니다. 
