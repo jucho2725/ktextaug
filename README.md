@@ -51,7 +51,7 @@ print(result)
 >>> ['이', '문장', '은', '예시', '적', '데이터', '기법', '증강', '의', '문장', '변형', '입니다', '.']
 ```
 
-형태소 분석기(토크나이저)는 mecab 과 komoran을 사용할 수 있습니다. 두 토크나이저 모두 별도의 설치과정이 필요하니 아래 링크를 참고해주세요. 원하는 토크나이저를 사용할 수도 있습니다.
+패키지에서 제공하는 형태소 분석기(토크나이저) 모듈은 mecab 또는 komoran을 불러옵니다. 두 토크나이저 모두 별도의 설치과정이 필요하니 아래 링크를 참고해주세요. 원하는 토크나이저를 사용할 수도 있습니다.
 
 - Mecab 설치 방법 [[링크]](https://sikaleo.tistory.com/104) - fabric 으로 쉽게 설치
 - PyKomoran 설치 방법 [[링크]](https://komorandocs.readthedocs.io/ko/latest/firststep/installation.html)
