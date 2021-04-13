@@ -7,7 +7,7 @@ def synonym_replace(corpus, prob, tokenizer, rng, **kwargs):
         corpus = tokenizer.tokenize(corpus)
 
 
-def synonym_replace(corpus, prob, tokenizer, rng, n_rep, **kwargs):
+def synonym_replace(corpus, tokenizer, n_rep, **kwargs):
     # check if there is a punctuation mark
     if isinstance(corpus, str):
         corpus = tokenizer.tokenize(corpus)
