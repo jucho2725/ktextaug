@@ -1,0 +1,3 @@
+include LICENSE
+include ktextaug/stopwords-ko.txt
+recursive-include ktextaug *

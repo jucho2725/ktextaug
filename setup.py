@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="ktextaug",
-    version="0.1.6a",
+    version="0.1.8rc4",
     description="data augmentation tool for Korean",
     author="jinuk.cho, eddie.jeon, jonghyeok.park, junghoon.lee, minsu.jeong. all from ING Lab, SKKU.",
     author_email="cju2725@gmail.com",
@@ -12,7 +12,7 @@ setup(
     packages=find_packages(exclude=["DataAug_CNN, DataAug_CNN.*, test, etc, etc.*"]),
     keywords=["text augmentation", "korean"],
     python_requires=">=3.6",
-    package_data={},
+    package_data={'ktextaug': ['stopwords-ko.txt']},
     extras_require={
         'dev': ['pytest', 'flake8'],
     },

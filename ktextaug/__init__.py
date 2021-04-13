@@ -3,12 +3,15 @@ import importlib
 import os
 import sys
 
-from .file_utils import _BaseLazyModule
+from .file_utils import (
+    _BaseLazyModule,
+    checkout
+)
 
 # NOTE:
 # this is strongly inspired by transformers package, transformers/src/transformers/__init__.py
 
-__version__ = "0.1.5"
+__version__ = "0.1.8"
 
 class _LazyModule(_BaseLazyModule):
     """
@@ -35,13 +38,13 @@ _import_structure = {
     "tokenization_utils": [
         "Tokenizer",
     ],
-    # # File utils
-    # "file_utils": [
-    #     "open_text",
-    #     "save_texts",
-    #     "make_dir_structure",
-    #     "_BaseLazyModule"
-    # ],
+    # File utils
+    "file_utils": [
+        "open_text",
+        "save_texts",
+        "make_dir_structure",
+        "_BaseLazyModule"
+    ],
 
     # Models
     "transformative": [
@@ -51,11 +54,13 @@ _import_structure = {
             "random_delete",
             "random_swap",
             "synonym_replace",
+            "utils",
     ],
     "generative": [],
 }
 
 # Direct imports for type-checking
+print(f"type check {TYPE_CHECKING}")
 if TYPE_CHECKING:
     from .transformative import (
         backtranslate,

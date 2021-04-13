@@ -7,6 +7,10 @@ It provides transformative text augmentation methods.
 한국어 텍스트 증강 기법을 모아둔 패키지입니다.
 현재는 변형적 텍스트 증강기법만을 구현해두었으며, 생성적 텍스트 증강기법 모델 또한 추가될 예정입니다.
 
+현재 버젼: 0.1.8
+- 패키지 내 모든 함수와 모듈을 테스트하였습니다.
+- 불용어 리스트를 패키지에 내장하고 원하는 경우 바꿀 수 있도록 변경했습니다.
+
 일정
 - 4월 말 : 생성 모델 추가 (속도 이슈 해결방법 고민중)
 - 5월 : 테스트 및 첫 번째 공식 릴리즈 ?
@@ -35,7 +39,7 @@ pip install ktextaug
 ktextaug를 사용하는 간단한 예제입니다. 
 
 ```python
-from ktextaug.transfomative import random_swap
+from ktextaug import random_swap
 
 text = "이 문장은 변형적 데이터 증강기법의 예시 문장입니다."
 tokenizer = bring_it_your_own   # 토크나이저는 어떤 토크나이저를 사용하더라도 상관없습니다.
@@ -99,7 +103,7 @@ tokenizer = Tokenizer(tokenizer_or_name=your_own_tokenizer)
 ## TO DO
 
 1. Generative Models 추가 예정 (4월 말)
-2. tokenizer을 선언하는 식으로 사용하도록. 기본 tokenizer이 바뀌어야함 (추가설치 필요 없는 것으로)
+2. 기본 tokenizer이 바뀌어야함 (추가설치 필요 없는 것으로)
 3. bulk 에 대한 처리, multiprocessing 적용
 
 ## Acknowledgement

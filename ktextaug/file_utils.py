@@ -54,3 +54,8 @@ def save_texts(fname, texts):
 def make_dir_structure(path) -> None:
     p = Path(path)
     p.parent.mkdir(parents=True, exist_ok=True)
+
+def checkout():
+    import os
+    print("relative path", os.path.exists("transformative/stopwords-ko.txt"))
+    print("absolute path", os.path.exists("ktextaug/stopwords-ko.txt"))

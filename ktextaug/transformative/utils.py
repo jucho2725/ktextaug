@@ -7,9 +7,26 @@ import requests
 from bs4 import BeautifulSoup
 import random
 
-from ..file_utils import open_text
 
-stopwords = open_text("ktextaug/stopwords-ko.txt")
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    # Try backported to PY<37 `importlib_resources`.
+    import importlib_resources as pkg_resources
+
+textiowrapper = pkg_resources.open_text(__package__, 'stopwords-ko.txt') # __package__ 는 current module 의미
+stopwords = [w.strip() for w in textiowrapper] # list of string
+
+def define_stopwords(new_stopwords: list) -> list:
+    """
+    define new stopwords list
+    :param stopwords: list of string.
+    :return:
+    """
+    global stopwords
+    stopwords = new_stopwords
+    print("stopwords list has been updated.")
+
 
 def isWord(word):
     return word.isalnum()
