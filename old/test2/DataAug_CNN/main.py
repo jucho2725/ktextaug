@@ -8,7 +8,7 @@ import pickle
 def main(config):
 
     if config.mode == 'train':
-        # build_tokenizer()  # tokenizer pickle dump
+        # build_tokenizer()  # tokenization pickle dump
         build_dataset()
 
         params = Params('config/params.json')

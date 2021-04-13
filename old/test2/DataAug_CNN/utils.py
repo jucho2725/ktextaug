@@ -102,16 +102,16 @@ def build_tokenizer():
 
     tokenizer = MaxScoreTokenizer(scores=cohesion_score)
 
-    with open('pickles/tokenizer.pickle', 'wb') as pickle_out:
+    with open('pickles/tokenization.pickle', 'wb') as pickle_out:
         pickle.dump(tokenizer, pickle_out)
 
 
 def padding_sentence(max_sequence_length, mode):
 
-    # pickle_tokenizer = open('pickles/tokenizer.pickle', 'rb')
+    # pickle_tokenizer = open('pickles/tokenization.pickle', 'rb')
     file_vocab = open('pickles/vocab.pickle', 'rb')
     vocab = pickle.load(file_vocab)
-    # tokenizer =pickle.load(pickle_tokenizer)
+    # tokenization =pickle.load(pickle_tokenizer)
     data_dir = Path().cwd() / 'data'
 
     if mode == 'train':
