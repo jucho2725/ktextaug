@@ -36,6 +36,12 @@ command line 설치 예시:
 pip install ktextaug
 ```
 
+build from source(latest):
+```
+git clone https://github.com/jucho2725/ktextaug.git
+
+python setup.py
+```
 
 ## Getting Started
 
@@ -77,7 +83,7 @@ tokenizer = Tokenizer(tokenizer_or_name=your_own_tokenizer)
 
 ## Test it with sample data
 
-데이터 증강기법의 성능을 확인하실 수 있도록, 매우 작은 데이터셋을 `src/data/` 에 올려두었습니다.
+데이터 증강기법의 성능을 확인하실 수 있도록, 매우 작은 데이터셋을 `examples/data/` 에 올려두었습니다.
 이 데이터는 nsmc 데이터셋의 훈련 데이터셋을 1000개 랜덤 샘플링한 결과입니다.
 (출처: https://github.com/e9t/nsmc)
 
