@@ -3,6 +3,7 @@
 
 Data augmentation Toolkit for Korean text.
 It provides transformative text augmentation methods.
+We will release generative text augmentation methods (mid of April, hopefully)
 
 한국어 텍스트 증강 기법을 모아둔 패키지입니다.
 현재는 변형적 텍스트 증강기법만을 구현해두었으며, 생성적 텍스트 증강기법 모델 또한 추가될 예정입니다.
