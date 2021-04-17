@@ -79,7 +79,7 @@ tokenizer = Tokenizer(tokenizer_or_name=your_own_tokenizer)
 
 #### noise_generation 모듈 사용법
 
-노이즈 생성은 @hkjeon13(전현규) 의 노이즈 생성을 따랐음을 밝힙니다
+노이즈 생성은 @hkjeon13(전현규) 의 노이즈 생성을 따랐습니다
 
 https://github.com/hkjeon13/noising-korean
 
