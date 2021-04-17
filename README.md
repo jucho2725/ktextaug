@@ -78,6 +78,11 @@ tokenizer = Tokenizer(tokenizer_or_name=your_own_tokenizer)
 ## More examples
 
 #### noise_generation 모듈 사용법
+
+노이즈 생성은 @hkjeon13(전현규) 의 노이즈 생성을 따랐음을 밝힙니다
+
+https://github.com/hkjeon13/noising-korean
+
 노이즈를 생성하는 방법은 총 3가지가 구현되어 있습니다.
 
 "jamo_split": 자모 분리(alphabet separation)에 의한 노이즈 추가 방법. 글자의 자음과 모음을 분리합니다. 단, 가독성을 위해 종성이 없으며 중성이  'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅗ' 가 아닐 경우 실행합니다(예: 안녕하세요 > 안녕ㅎㅏㅅㅔ요)
@@ -87,7 +92,7 @@ tokenizer = Tokenizer(tokenizer_or_name=your_own_tokenizer)
 "phonological_change": 음운변화에 의한 노이즈 추가 방법. 발음을 바탕으로 단어를 변형시킵니다(너무 닮았다 > 너무 달맜다).
 
 **실행 예시**
-```
+```python
 import noise_generation
 
 text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.'
@@ -97,7 +102,7 @@ noise_generation.noise_generate(text, prob=1., option="jamo_split")
 
 
 **변형 예시**
-```
+```python
 [original]  행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.
 
 [jamo_split, prob=1] 행복한 ㄱㅏ정은 모두ㄱㅏ 닮았ㅈㅣ만, 불행한 ㄱㅏ정은 모두 ㅈㅓㅁㅏㄷㅏ의 ㅇㅣ유로 불행ㅎㅏㄷㅏ.
