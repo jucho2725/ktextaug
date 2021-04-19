@@ -4,7 +4,7 @@ from lib.augmentations.random_process import random_delete, random_swap, random_
 from lib.augmentations.synonym_replacement import synonym_replace
 from lib.augmentations.noise_addition import noise_add
 from lib.augmentations.back_translation import back_translate
-from multiprocessing import Pool, cpu_count
+from multiprocessing import Pool
 from functools import partial
 from tqdm.auto import tqdm
 
@@ -26,7 +26,7 @@ class TextAugmentation(object):
         }
 
     def generate(self, corpus, prob=0.1, tokenizer=None, do_lower_case=False, mode='random_deletion', rng=None,
-                 n_swap=1, n_rep=1, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'], target_language='en', num_processes=1):
+                 n_swaps=1, n_inserts=1, n_syns=1, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'], target_language='en', num_processes=1):
 
         if rng is None:
             rng = random.Random()
@@ -37,13 +37,15 @@ class TextAugmentation(object):
         if isinstance(corpus, list):
             pool = Pool(processes=num_processes)
             func = partial(self.augmentions[mode], prob=prob, tokenizer=tokenizer, rng=rng,
-                           n_swap=n_swap, n_rep=n_rep, noise_mode=noise_mode, target_language=target_language)
+                           n_swaps=n_swaps, n_inserts=n_inserts, n_syns=n_syns,
+                           noise_mode=noise_mode, target_language=target_language)
 
             return [r for r in tqdm(pool.imap(func=func, iterable=corpus), total=len(corpus))]
 
         elif isinstance(corpus, str):
             corpus = self.augmentions[mode](corpus, prob=prob, tokenizer=tokenizer, rng=rng,
-                                            n_swap=n_swap, n_rep=n_rep, noise_mode=noise_mode, target_language=target_language)
+                                            n_swaps=n_swaps, n_inserts=n_inserts, n_syns=n_syns,
+                                            noise_mode=noise_mode, target_language=target_language)
 
             return corpus
 

@@ -23,7 +23,7 @@ class SynDict(object):
         return token
 
 
-def synonym_replace(tokens, tokenizer, rng, prob, n_syns, **kwargs):
+def synonym_replace(tokens, tokenizer, rng, n_syns, **kwargs):
     if isinstance(tokens, str):
         tokens = tokenizer.tokenize(tokens)
 

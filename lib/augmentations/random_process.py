@@ -2,7 +2,6 @@ import string
 from itertools import compress
 from synonym_replacement import SYN_DICT
 
-
 def random_delete(tokens, prob, tokenizer, rng, **kwargs):
     if isinstance(tokens, str):
         tokens = tokenizer.tokenize(tokens)
@@ -17,11 +16,11 @@ def random_delete(tokens, prob, tokenizer, rng, **kwargs):
     return output_tokens
 
 
-def random_insert(tokens, tokenizer, rng, n_insert, **kwargs):
+def random_insert(tokens, tokenizer, rng, n_inserts, **kwargs):
     if isinstance(tokens, str):
         output_tokens = tokenizer.tokenize(tokens)
 
-    random_idxes = rng.sample(range(len(output_tokens)), n_insert)
+    random_idxes = rng.sample(range(len(output_tokens)), n_inserts)
     syn_words = [SYN_DICT.get_synonym(token)[0] for token in output_tokens]
     syn_words = [s for s,t in zip(syn_words, output_tokens) if s!=t]
     random_idxes = random_idxes[:len(syn_words)]
