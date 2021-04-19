@@ -1,71 +1,45 @@
-import requests
-from bs4 import BeautifulSoup
+import json
+import random
 
 
-def synonym_replace(text, tokenizer, rng, n_rep, **kwargs):
-    # check if there is a punctuation mark
-    if isinstance(text, str):
-        text = tokenizer.tokenize(text)
+class SynDict(object):
+    def __init__(self):
+        self.dictionary = self.load_syn_dict()
+        self.rng = random.Random()
 
-    punctuations = [".", ",", ":", ";", "?", "!"]
-    if text[-1] in punctuations:
-        keep = text[-1]
-        words = text[:-1].copy()
-    else:
-        keep = None
-        words = text.copy()
+    def load_syn_dict(self):
+        with open('../../src/synonym_dictionary_kor.json', 'r') as r:
+            content = json.load(r)
+        return content
 
-    result = words[:]
-    nonStop = [w for w in result if (not isStopword(w)) and isWord(w)]
-    rng.shuffle(nonStop)
-    num_replacement = 0
-    for random_word in nonStop:
-        synonym = get_synonym(random_word, rng)
-        if len(synonym) >= 1:
-            synonym = rng.choice(list(synonym))
-            new_word = [synonym if word == random_word else word for word in result]
-            num_replacement += 1
-        if num_replacement >= n_rep:
-            break
+    def get_synonym(self, token, n_sample=1, rng=None):
 
-    sentence = " ".join(new_word)
-    result = sentence.split(" ")
-    return result + [keep]
+        if not rng:
+            rng = self.rng
+
+        if token in self.dictionary:
+            return rng.sample(self.dictionary[token], n_sample)
+
+        return token
 
 
-def define_stopwords(new_stopwords: list) -> list:
-    """
-    define new stopwords list
-    :param stopwords: list of string.
-    :return:
-    """
-    global stopwords
-    stopwords = new_stopwords
-    print("stopwords list has been updated.")
+def synonym_replace(tokens, tokenizer, rng, prob, n_syns, **kwargs):
+    if isinstance(tokens, str):
+        tokens = tokenizer.tokenize(tokens)
+
+    new_tokens = [SYN_DICT.get_synonym(t) for t in tokens]
+    diff_idxes = [i for i,(t,nt) in enumerate(zip(tokens,new_tokens)) if t!=nt]
+    diff_idxes = rng.sample(diff_idxes, min(n_syns, len(diff_idxes)))
+
+    output_tokens = []
+    for i in range(len(tokens)):
+        if i in diff_idxes:
+            output_tokens.append(new_tokens[i])
+            continue
+        output_tokens.append(tokens[i])
+
+    return output_tokens
 
 
-def isWord(word):
-    return word.isalnum()
 
-
-def isStopword(word):
-    if word in stopwords:
-        return True
-    else:
-        return False
-
-
-def get_synonym(word, rng):
-    relate_list = []
-    res = requests.get("https://dic.daum.net/search.do?q=" + word)
-    soup = BeautifulSoup(res.content, "html.parser")
-    try:
-        word_id = soup.find("ul", class_="list_relate")
-    except AttributeError:
-        return word
-    if word_id == None:
-        return word
-    for tag in word_id.find_all("a"):
-        relate_list.append(tag.text)
-
-    return rng.choice(relate_list)
+SYN_DICT = SynDict()

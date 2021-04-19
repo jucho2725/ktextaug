@@ -1,65 +1,48 @@
-PUNC = [".", ",", ":", ";", "?", "!"]
+import string
+from itertools import compress
+from synonym_replacement import SYN_DICT
 
 
-def random_delete(corpus, prob, tokenizer, rng, **kwargs):
-    if isinstance(corpus, str):
-        corpus = tokenizer.tokenize(corpus)
-    if corpus[-1] in PUNC:
-        keep = corpus[-1]
-        corpus = corpus[:-1].copy()
-    else:
-        keep = None
-        corpus = corpus.copy()
+def random_delete(tokens, prob, tokenizer, rng, **kwargs):
+    if isinstance(tokens, str):
+        tokens = tokenizer.tokenize(tokens)
 
-    if len(corpus) == 1:
-        return corpus
-
-    new_words = []
-
-    for word in corpus:
-        r = rng.uniform(0, 1)
-        if r > prob:
-            new_words.append(word)
-
-    if len(new_words) == 0:
-        rand_int = rng.randint(0, len(corpus) - 1)
-        return " ".join([corpus[rand_int]])
-
-    return new_words + [keep]
+    output_tokens, length = [], len(tokens)
+    tokens.append('')
+    for i in range(length):
+        if rng.random() > prob or tokens[i] in string.punctuation:
+            output_tokens.append(tokens[i])
+        elif tokens[i+1].startswith('##'):
+            output_tokens.append(tokens[i])
+    return output_tokens
 
 
-def random_swap(text, tokenizer, rng, n_swap, **kwargs):
-    """
-    :param words:
-    :param n:
-    :return:
-    """
-    # check if there is a punctuation mark
-    if isinstance(text, str):
-        text = tokenizer.tokenize(text)
+def random_insert(tokens, tokenizer, rng, n_insert, **kwargs):
+    if isinstance(tokens, str):
+        output_tokens = tokenizer.tokenize(tokens)
 
-    if text[-1] in PUNC:
-        keep = text[-1]
-        new_words = text[:-1].copy()
-    else:
-        keep = None
-        new_words = text.copy()
-    for _ in range(n_swap):
-        new_words = _swap_word(new_words, rng)
-    return new_words + [keep]
+    random_idxes = rng.sample(range(len(output_tokens)), n_insert)
+    syn_words = [SYN_DICT.get_synonym(token)[0] for token in output_tokens]
+    syn_words = [s for s,t in zip(syn_words, output_tokens) if s!=t]
+    random_idxes = random_idxes[:len(syn_words)]
+
+    for idx, syn_word in zip(random_idxes, syn_words):
+        output_tokens.insert(idx, syn_word)
+
+    return output_tokens
 
 
-def _swap_word(new_words, rng):
-    random_idx_1 = rng.randint(0, len(new_words) - 1)
-    random_idx_2 = random_idx_1
-    counter = 0
-    while random_idx_2 == random_idx_1:
-        random_idx_2 = rng.randint(0, len(new_words) - 1)
-        counter += 1
-        if counter > 3:
-            return new_words
-    new_words[random_idx_1], new_words[random_idx_2] = (
-        new_words[random_idx_2],
-        new_words[random_idx_1],
-    )
-    return new_words
+def random_swap(tokens, tokenizer, rng, n_swaps, **kwargs):
+    if isinstance(tokens, str):
+        tokens = tokenizer.tokenize(tokens)
+
+    for i in range(n_swaps):
+        r1,r2 = sorted(rng.sample(range(len(tokens)), 2))
+        tokens.insert(r2, tokens.pop(r1))
+        tokens.insert(r1, tokens.pop(r2-1))
+    return tokens
+
+
+
+if __name__ == '__main__':
+    print(SYN_DICT)

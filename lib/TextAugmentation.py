@@ -1,6 +1,6 @@
 import random
 from transformers import BertTokenizer
-from lib.augmentations.random_process import random_delete, random_swap
+from lib.augmentations.random_process import random_delete, random_swap, random_insert
 from lib.augmentations.synonym_replacement import synonym_replace
 from lib.augmentations.noise_addition import noise_add
 from lib.augmentations.back_translation import back_translate
@@ -14,12 +14,12 @@ VOCABULARY = 'tokenization/vocabulary/basic_vocabulary.txt'
 # TODO: tokenization wrapping for 'mecab', 'kkma' etc.
 
 
-
 class TextAugmentation(object):
     def __init__(self):
         self.augmentions = {
             'random_deletion': random_delete,
             'random_swap': random_swap,
+            'random_insertion': random_insert,
             'synonym_replacement': synonym_replace,
             'noise_add': noise_add,
             'back-translation':back_translate,
@@ -27,6 +27,7 @@ class TextAugmentation(object):
 
     def generate(self, corpus, prob=0.1, tokenizer=None, do_lower_case=False, mode='random_deletion', rng=None,
                  n_swap=1, n_rep=1, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'], target_language='en', num_processes=1):
+
         if rng is None:
             rng = random.Random()
 
@@ -42,7 +43,8 @@ class TextAugmentation(object):
 
         elif isinstance(corpus, str):
             corpus = self.augmentions[mode](corpus, prob=prob, tokenizer=tokenizer, rng=rng,
-                                        n_swap=n_swap, n_rep=n_rep, noise_mode=noise_mode, target_language=target_language)
+                                            n_swap=n_swap, n_rep=n_rep, noise_mode=noise_mode, target_language=target_language)
+
             return corpus
 
 
