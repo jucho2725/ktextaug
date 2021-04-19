@@ -9,13 +9,15 @@ We will release generative text augmentation methods (mid of April, hopefully)
 현재는 변형적 텍스트 증강기법만을 구현해두었으며, 생성적 텍스트 증강기법 모델 또한 추가될 예정입니다.
 transformers 패키지 내부를 참고하면서 만들고 있습니다.
 
+현재 버젼: 0.1.9
 
-현재 버젼: 0.1.8
-- 패키지 내 모든 함수와 모듈을 테스트하였습니다.
-- 불용어 리스트를 패키지에 내장하고 원하는 경우 바꿀 수 있도록 변경했습니다.
+* TextAugmentation() 을 통해 bulk, 즉 대량의 데이터를 multiprocessing 하도록 구현되었습니다.
+
+- multiprocessing 이 가능하도록 코드를 수정했습니다.
+- 노이즈가 포함된 vocab을 가진 기본 subword tokenizer과 다른 토크나이저들을 만들었습니다. 
 
 일정
-- 4월 말 : 생성 모델 추가 (속도 이슈 해결방법 고민중)
+- 4월 말 : 생성 모델 추가 (속도 이슈 해결 필요)
 - 5월 : 테스트 및 첫 번째 공식 릴리즈 ?
   
 
@@ -24,10 +26,13 @@ transformers 패키지 내부를 참고하면서 만들고 있습니다.
 ### Prerequisites
 
 * Python >= 3.6
-* konlpy>=0.5.2
-* PyKomoran>=0.1.5
-* Beautifulsoup4>=4.6.0 # for synonym search
+
+* Beautifulsoup4>=4.6.0  # for synonym search
 * Googletrans==3.1.0a0   # for backtranslation
+  
+* konlpy>=0.5.2                # for Mecab tokenizer
+* PyKomoran>=0.1.5       # for Komoran tokenizer
+* transformers>=2.6.0    # for subword tokenizer
 
 예제를 테스트하기 위해선 pandas, parmap 이 필요할 수 있습니다.
 
@@ -46,7 +51,20 @@ python setup.py
 
 ## Getting Started
 
-ktextaug를 사용하는 간단한 예제입니다. 
+ktextaug를 사용하는 간단한 예제입니다.
+
+패키지 0.1.9 버젼부턴 기본적으로 TextAugmentation() 을 사용하여 처리하는 것을 권장합니다. multiprocessing 을 이용하여 대용량의 데이터를 빠르게 처리할 수 있도록 만들었습니다. 
+
+```python
+from ktextaug import TextAugmentation
+
+sample_text = '달리는 기차 위에 중립은 없다. 미국의 사회 운동가이자 역사학자인 하워드 진이 남긴 격언이다.'
+sample_texts = ['프로그램 개발이 끝나고 서비스가 진행된다.', '도움말을 보고 싶다면 --help를 입력하면 된다.']
+agent = TextAugmentation(tokenize_fn="mecab")
+print(agent.generate(sample_text)) # default is back_translation
+```
+
+함수를 직접 불러오는 것 또한 가능합니다. 
 
 ```python
 from ktextaug import random_swap
@@ -65,64 +83,32 @@ print(result)
 - PyKomoran 설치 방법 [[링크]](https://komorandocs.readthedocs.io/ko/latest/firststep/installation.html)
 
 ```python
-from ktextaug.tokenization_utils import Tokenizer
+from ktextaug.tokenization_utils import get_tokenize_fn
+from ktextaug import random_swap
 
-tokenizer = Tokenizer(tokenizer_or_name="komoran") # mecab
+# get_tokenize_fn 함수의 사용예시
+tokenize_fn = get_tokenize_fn("mecab")
 
-# OR you can use your own tokenizer(should be module, neither function nor object)
-your_own_tokenizer = ABC # module
-tokenizer = Tokenizer(tokenizer_or_name=your_own_tokenizer) 
+# OR you can use your own tokenizer
+result = random_swap(text_or_words=text,
+                     tokenize_fn=lambda x: x.split(" "), # lambda로도 사용 가능
+                     rng=Random(seed=2021),
+                     n_swap=2)
 
 ```
 
 ## More examples
 
-#### noise_generation 모듈 사용법
+- How_to_use 에 기본적인 사용법과 노이즈 생성과 관련된 예시에 대해 적혀있습니다.
 
-노이즈 생성은 @hkjeon13(전현규) 의 노이즈 생성을 따랐습니다
+  
 
-https://github.com/hkjeon13/noising-korean
-
-노이즈를 생성하는 방법은 총 3가지가 구현되어 있습니다.
-
-"jamo_split": 자모 분리(alphabet separation)에 의한 노이즈 추가 방법. 글자의 자음과 모음을 분리합니다. 단, 가독성을 위해 종성이 없으며 중성이  'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅗ' 가 아닐 경우 실행합니다(예: 안녕하세요 > 안녕ㅎㅏㅅㅔ요)
-
-"vowel_change": 모음 변형에 의한 노이즈 추가 방법. 글자의 모음을 변형시킵니다. 단, 가독성을 위해 종성이 없으며 중성이 'ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ', 'ㅛ', 'ㅜ', 'ㅠ' 일 경우 실행합니다(예: 안녕하세요 > 안녕햐세오).
-
-"phonological_change": 음운변화에 의한 노이즈 추가 방법. 발음을 바탕으로 단어를 변형시킵니다(너무 닮았다 > 너무 달맜다).
-
-**실행 예시**
-```python
-import noise_generation
-
-text = '행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.'
-noise_generation.noise_generate(text, prob=1., option="jamo_split")
->> 행복한 ㄱㅏ정은 모두ㄱㅏ 닮았ㅈㅣ만, 불행한 ㄱㅏ정은 모두 ㅈㅓㅁㅏㄷㅏ의 ㅇㅣ유로 불행ㅎㅏㄷㅏ.
-```
-
-
-**변형 예시**
-```python
-[original]  행복한 가정은 모두가 닮았지만, 불행한 가정은 모두 저마다의 이유로 불행하다.
-
-[jamo_split, prob=1] 행복한 ㄱㅏ정은 모두ㄱㅏ 닮았ㅈㅣ만, 불행한 ㄱㅏ정은 모두 ㅈㅓㅁㅏㄷㅏ의 ㅇㅣ유로 불행ㅎㅏㄷㅏ.
-
-[vowel_change, prob=1] 행복한 갸정은 묘듀갸 닮았지만, 불행한 갸정은 묘듀 져먀댜의 이우료 불행햐댜.
-
-[phonological_change, prob=1] 행복한 가정은 모두가 달맜지만, 불행한 가정은 모두 저마다의 이유로 불행하다.
-```
-
-#### 기타
-- 'phonological_change' 방법은 현재 비음화, 유음화, 구개음화, 연음 등을 구현하고 있으며, 추후 확대될 예정입니다(누락된 규칙이 있을 수 있으니, 발견 시 피드백 주시면 감사하겠습니다).
-- prob는 변형 가능한 글자들에 대해서 해당 확률만큼 확률적으로 실행됩니다(prob가 1이라고 해서 모든 텍스트가 변경되는 것이 아닙니다).
-
-
-**더 자세한 사용 예시는 examples 폴더 내의 예시들을 확인해주세요.**
+**더 자세한 사용 예시는 examples 폴더 내의 예시들을 확인해주세요.(0.1.8 에서 테스트)**
 
 - `summarize.py` : 각 기법을 사용한 예시를 보여줍니다.
 - `multiprocessing.py` : .csv 형식의 데이터셋을 받아 증강된 데이터셋 파일을 제공해줍니다. 시간이 많이 소요되는 기법들을 multiprocessing 을 이용하여 처리했습니다. 
 
-## Test it with sample data
+## Test it with sample data(0.1.8 에서 테스트)
 
 데이터 증강기법의 성능을 확인하실 수 있도록, 매우 작은 데이터셋을 `examples/data/` 에 올려두었습니다.
 이 데이터는 nsmc 데이터셋의 훈련 데이터셋을 1000개 랜덤 샘플링한 결과입니다.
@@ -133,14 +119,14 @@ noise_generation.noise_generate(text, prob=1., option="jamo_split")
 
 ## Things to know
 
-1. 한국어 불용어 사전의 경우 다음 링크의 파일을 그대로 가져왔습니다. 
+1. 노이즈 생성은 @hkjeon13(전현규) 의 노이즈 생성을 따랐습니다
+   
+https://github.com/hkjeon13/noising-korean
+   
+2. 한국어 불용어 사전의 경우 다음 링크의 파일을 그대로 가져왔습니다. 
    https://github.com/stopwords-iso/stopwords-ko/blob/master/stopwords-ko.txt
 
-2. backtranslation 기법을 위해 사용되는 googletrans 패키지에 이슈가 있습니다. (아래 링크 참고)
-   https://github.com/ssut/py-googletrans/issues/234
-   해당 이슈가 해결될 때 까지 간혹 "AttributeError: 'NoneType' object has no attribute 'group'" 에러가 발생할 수 있습니다.
-
-   Update(21.04.12) googletrans==3.1.0a0 을 설치시 문제가 해결된다고 합니다. [(링크)](https://github.com/ssut/py-googletrans/issues/286) 4월 12일 기준 테스트 완료
+   
 
 ## Contribution
 
@@ -156,8 +142,6 @@ Contact: cju2725@gmail.com
 ## TO DO
 
 1. Generative Models 추가 예정 (4월 말)
-2. 기본 tokenizer이 바뀌어야함 (추가설치 필요 없는 것으로)
-3. bulk 에 대한 처리, multiprocessing 적용
 4. synonym search 동의어 못찾을시 문제 해결
 5. documentation 작성 
 

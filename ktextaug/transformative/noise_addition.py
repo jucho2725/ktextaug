@@ -1,12 +1,5 @@
-"""
-Author : Eddie, Jeon
-Editor : Jin Uk, Cho
-Last update : 10th, Apr, 2021
-"""
-
 import re
 import random
-import logging
 
 consonant = ['ㄱ', 'ㄲ', 'ㄴ', 'ㄷ', 'ㄸ', 'ㄹ', 'ㅁ', 'ㅂ', 'ㅃ', 'ㅅ', 'ㅆ', 'ㅇ', 'ㅈ', 'ㅉ', 'ㅊ', 'ㅋ', 'ㅌ', 'ㅍ', 'ㅎ']
 vowel = ['ㅏ', 'ㅐ', 'ㅑ', 'ㅒ', 'ㅓ', 'ㅔ', 'ㅕ', 'ㅖ', 'ㅗ', 'ㅘ', 'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ',
@@ -127,24 +120,18 @@ def phonological_process(content, prob=0.3):
     return content
 
 
-def noise_generate(content, prob=0.3, option="jamo_split"):
-    """
-        Arguments:
-            content: 문자열(string) 데이터
+def noise_add(text, prob, tokenizer, rng, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'],
+              **kwargs):
+    if isinstance(text, list):
+        text = tokenizer.convert_tokens_to_string(text)
 
-            option:
-                "jamo_split" - 자모 분리(alphabet separation)에 의한 노이즈 추가 방법. 글자의 자음과 모음을 분리합니다. 단, 가독성을 위해 종성이 없으며 중성이 'ㅘ',
-                'ㅙ', 'ㅚ', 'ㅛ', 'ㅜ', 'ㅝ', 'ㅞ', 'ㅟ', 'ㅠ', 'ㅡ', 'ㅢ', 'ㅗ' 가 아닐 경우 실행합니다(예:안녕하세요 > 안녕ㅎㅏㅅㅔ요)
+    fns_dict = {'jamo_split': splitting_noise,
+                'vowel_change': vowel_noise,
+                'phonological_change': phonological_process}
 
-                "vowel_change" - 모음 변형에 의한 노이즈 추가 방법. 글자의 모음을 변형시킵니다. 단, 가독성을 위해 종성이 없으며 중성이 'ㅏ', 'ㅑ', 'ㅓ', 'ㅕ', 'ㅗ',
-                'ㅛ', 'ㅜ', 'ㅠ' 일 경우 실행합니다(예: 안녕하세요 > 안녕햐세오).
-
-                "phonological_change" - 음운변화에 의한 노이즈 추가 방법. 발음을 바탕으로 단어를 변형시킵니다(너무 닮았다 > 너무 달맜다).
-
-        Returns:
-            변환된 문장 (string)
-    """
-    fns = {'jamo_split': splitting_noise, 'vowel_change': vowel_noise, 'phonological_change': phonological_process}
-    assert option in fns, f'option must be either "jamo_split" or "vowel_change" or "phonological_change".'
-
-    return fns[option](content, prob=prob)
+    noised_corpus = text
+    idx = 0
+    while noised_corpus == text or idx < len(noise_mode):
+        noised_corpus = fns_dict[rng.sample(noise_mode, k=1)[0]](text, prob=prob)
+        idx += 1
+    return noised_corpus

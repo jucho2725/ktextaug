@@ -1,12 +1,6 @@
-"""
-Author : Jung Hoon, Lee
-Editor : Jin Uk, Cho
-Last update : 12th, Apr, 2020
-"""
 import requests
 from bs4 import BeautifulSoup
 import random
-
 
 try:
     import importlib.resources as pkg_resources
@@ -16,6 +10,16 @@ except ImportError:
 
 textiowrapper = pkg_resources.open_text(__package__, 'stopwords-ko.txt') # __package__ 는 current module 의미
 stopwords = [w.strip() for w in textiowrapper] # list of string
+PUNC = [".", ",", ":", ";", "?", "!"]
+
+def keep_punctuation(text):
+    if text[-1] in PUNC:
+        keep = text[-1]
+        text = text[:-1].copy()
+    else:
+        keep = None
+        text = text.copy()
+    return text, keep
 
 def define_stopwords(new_stopwords: list) -> list:
     """
@@ -26,7 +30,6 @@ def define_stopwords(new_stopwords: list) -> list:
     global stopwords
     stopwords = new_stopwords
     print("stopwords list has been updated.")
-
 
 def isWord(word):
     return word.isalnum()
@@ -51,6 +54,3 @@ def get_synonym(word):
         relate_list.append(tag.text)
 
     return random.choice(relate_list)
-
-if __name__ == "__main__":
-    print(isStopword("아홉"))

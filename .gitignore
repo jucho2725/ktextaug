@@ -196,3 +196,5 @@ docs/_build/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+/ktextaug/transformative/test.py
+/ktextaug/test.py

@@ -1,25 +1,29 @@
-from konlpy.tag import Mecab
-from PyKomoran import Komoran
 from types import ModuleType
+import os
+try:
+    import importlib.resources as pkg_resources
+except ImportError:
+    # Try backported to PY<37 `importlib_resources`.
+    import importlib_resources as pkg_resources
 
-class Tokenizer:
-    def __init__(self, tokenizer_or_name="komoran"):
-        if isinstance(tokenizer_or_name, ModuleType):
-            self.tokenizer = tokenizer_or_name
-            self.tokenizer_name = None
+ # __package__ 는 current module 의미
+
+
+def get_tokenize_fn(tokenizer_name="mecab", vocab_path=None):
+    if tokenizer_name.lower() == "komoran":
+        from PyKomoran import Komoran
+        tokenizer = Komoran("STABLE")
+        return tokenizer.get_morphes_by_tags
+    elif tokenizer_name.lower() == "mecab":
+        from konlpy.tag import Mecab
+        tokenizer = Mecab()
+        return tokenizer.morphs
+    elif tokenizer_name.lower() == "subword":
+        from transformers import BertTokenizer
+        if vocab_path is not None:
+            tokenizer = BertTokenizer(os.path.join(__package__, vocab_path), do_lower_case=False)
+            return tokenizer.tokenize
         else:
-            print(tokenizer_or_name)
-            assert tokenizer_or_name.lower() == "komoran" or tokenizer_or_name.lower() == "mecab", "Only 'komoran' and 'mecab' is acceptable."
-            if tokenizer_or_name == "komoran":
-                self.tokenizer = Komoran("STABLE")
-            elif tokenizer_or_name == "mecab":
-                self.tokenizer = Mecab()
-            self.tokenizer_name = tokenizer_or_name
-
-    def tokenize(self, text):
-        if self.tokenizer_name == "komoran":
-            self.tokenizer.get_morphes_by_tags(text)
-        elif self.tokenizer_name == "mecab":
-            self.tokenizer.morphs(text)
-        else: # self.tokenizer_name 이 None
-            self.tokenizer.tokenize(text)
+            VOCABULARY = './vocab_noised.txt'
+            tokenizer = BertTokenizer(os.path.join(__package__, VOCABULARY), do_lower_case=False)
+            return tokenizer.tokenize

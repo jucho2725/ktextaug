@@ -11,14 +11,12 @@ from .file_utils import (
 # NOTE:
 # this is strongly inspired by transformers package, transformers/src/transformers/__init__.py
 
-__version__ = "0.1.8"
+__version__ = "0.1.9"
 
 class _LazyModule(_BaseLazyModule):
     """
     Module class that surfaces all objects but only performs associated imports when the objects are requested.
     """
-
-
     __file__ = globals()["__file__"]
     __path__ = [os.path.dirname(__file__)]
 
@@ -36,7 +34,7 @@ class _LazyModule(_BaseLazyModule):
 _import_structure = {
     # Tokenizer
     "tokenization_utils": [
-        "Tokenizer",
+        "get_tokenize_fn",
     ],
     # File utils
     "file_utils": [
@@ -48,8 +46,8 @@ _import_structure = {
 
     # Models
     "transformative": [
-            "backtranslate",
-            "noise_generate",
+            "back_translate",
+            "noise_add",
             "random_insert",
             "random_delete",
             "random_swap",
@@ -57,18 +55,20 @@ _import_structure = {
             "utils",
     ],
     "generative": [],
+    "augmentation": ["TextAugmentation"],
 }
 
 # Direct imports for type-checking
 print(f"type check {TYPE_CHECKING}")
 if TYPE_CHECKING:
+    from .tokenization_utils import get_tokenize_fn
     from .transformative import (
-        backtranslate,
+        back_translate,
         random_delete,
         random_insert,
         random_swap,
         synonym_replace,
-        noise_generate,
+        noise_add,
     )
     from .generative import *
     from .file_utils import (
@@ -76,6 +76,6 @@ if TYPE_CHECKING:
         save_texts,
         make_dir_structure
     )
-    from .tokenization_utils import Tokenizer
+    from augmentation import TextAugmentation
 else:
     sys.modules[__name__] = _LazyModule(__name__, _import_structure)
