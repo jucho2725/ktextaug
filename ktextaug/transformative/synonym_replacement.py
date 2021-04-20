@@ -1,10 +1,9 @@
-
 from .utils import isStopword, isWord, get_synonym, keep_punctuation
 
-def synonym_replace(text_or_words, tokenize_fn, rng, n_syns, **kwargs):
+def synonym_replace(text_or_words, tokenizer, rng, n_syns, **kwargs):
     # check if there is a punctuation mark
     if isinstance(text_or_words, str):
-        words = tokenize_fn(text_or_words)
+        words = tokenizer.tokenize(text_or_words)
         new_words, keep = keep_punctuation(words)
     else:
         new_words, keep = keep_punctuation(text_or_words)

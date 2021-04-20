@@ -1,8 +1,8 @@
 from .utils import isStopword, isWord, get_synonym, keep_punctuation
 
-def random_delete(text_or_tokens, prob, tokenize_fn, rng, **kwargs):
+def random_delete(text_or_tokens, prob, tokenizer, rng, **kwargs):
     if isinstance(text_or_tokens, str):
-        tokens = tokenize_fn(text_or_tokens)
+        tokens = tokenizer.tokenize(text_or_tokens)
         tokens, keep = keep_punctuation(tokens)
     else:
         tokens, keep = keep_punctuation(text_or_tokens)
@@ -15,9 +15,9 @@ def random_delete(text_or_tokens, prob, tokenize_fn, rng, **kwargs):
             output_tokens.append(tokens[i])
     return " ".join(output_tokens) + keep
 
-def random_swap(text_or_tokens, tokenize_fn, rng, n_swaps, **kwargs):
+def random_swap(text_or_tokens, tokenizer, rng, n_swaps, **kwargs):
     if isinstance(text_or_tokens, str):
-        tokens = tokenize_fn(text_or_tokens)
+        tokens = tokenizer.tokenize(text_or_tokens)
         tokens, keep = keep_punctuation(tokens)
     else:
         tokens, keep = keep_punctuation(text_or_tokens)
@@ -29,10 +29,10 @@ def random_swap(text_or_tokens, tokenize_fn, rng, n_swaps, **kwargs):
     return " ".join(tokens) + keep
 
 
-def random_insert(text_or_words, n_inserts, tokenize_fn, rng, **kwargs):
+def random_insert(text_or_words, n_inserts, tokenizer, rng, **kwargs):
     # check if there is a punctuation mark
     if isinstance(text_or_words, str):
-        words = tokenize_fn(text_or_words)
+        words = tokenizer.tokenize(text_or_words)
         words, keep = keep_punctuation(words)
     else:
         words, keep = keep_punctuation(text_or_words)
