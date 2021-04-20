@@ -12,20 +12,16 @@ import os
 #     import importlib_resources as pkg_resources
 
 class Tokenizer:
-    def __init__(self, tokenizer_or_name="komoran"):
-        if isinstance(tokenizer_or_name, ModuleType):
-            self.tokenizer = tokenizer_or_name
-            self.tokenizer_name = None
-        else:
-            print(tokenizer_or_name)
-            assert tokenizer_or_name.lower() == "komoran" or tokenizer_or_name.lower() == "mecab", "Only 'komoran' and 'mecab' is acceptable."
-            if tokenizer_or_name == "komoran":
-                self.tokenizer = Komoran("STABLE")
-            elif tokenizer_or_name == "mecab":
-                self.tokenizer = Mecab()
-            elif tokenizer_or_name == "subword":
-                tokenizer = BertTokenizer(resource_filename(__package__, "vocab_noised.txt"), do_lower_case=False)
-            self.tokenizer_name = tokenizer_or_name
+    def __init__(self, tokenizer_name="komoran"):
+        assert (tokenizer_name.lower() == "komoran") or (tokenizer_name.lower() == "mecab")\
+            or (tokenizer_name.lower() == "subword"), "Only 'komoran', 'mecab', and 'subword' is acceptable."
+        if tokenizer_name == "komoran":
+            self.tokenizer = Komoran("STABLE")
+        elif tokenizer_name == "mecab":
+            self.tokenizer = Mecab()
+        elif tokenizer_name == "subword":
+            tokenizer = BertTokenizer(resource_filename(__package__, "vocab_noised.txt"), do_lower_case=False)
+        self.tokenizer_name = tokenizer_name
 
     def tokenize(self, text):
         if self.tokenizer_name == "komoran":

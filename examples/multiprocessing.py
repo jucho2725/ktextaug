@@ -17,7 +17,7 @@ import random
 import multiprocessing
 
 random.seed(2020)
-tokenizer = Tokenizer(tokenizer_or_name="komoran")
+tokenizer = Tokenizer(tokenizer_name="komoran")
 
 def bt_proc(i, df, lang=None):
     ### back translation ###

@@ -24,7 +24,7 @@ Last update : 20th, Apr, 2020
 
 
 def Augment(text, alpha_rs=0.2, alpha_ri=0.2, alpha_sr=0.2, p_rd=0.2, num_iter=9):
-    tokenizer = Tokenizer(tokenizer_or_name="komoran")
+    tokenizer = Tokenizer(tokenizer_name="komoran")
     words = tokenizer.tokenize(text)
     num_words = len(words)
     augmented_sentence = {}

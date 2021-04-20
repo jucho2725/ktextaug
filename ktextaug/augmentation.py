@@ -4,7 +4,7 @@ from ktextaug.transformative.back_translation import back_translate
 from .transformative.noise_addition import noise_add
 from .transformative.random_process import random_delete, random_swap, random_insert
 from .transformative.synonym_replacement import synonym_replace
-from .tokenization_utils import get_tokenizer
+from .tokenization_utils import Tokenizer
 
 from multiprocessing import Pool, cpu_count
 from functools import partial
@@ -24,9 +24,9 @@ class TextAugmentation(object):
             'random_insert': random_insert,
         }
         if tokenizer is None:
-            self.tokenizer = lambda x: x.split(" ")
+            self.tokenizer = Tokenizer(tokenizer_name="subword") # default
         elif isinstance(tokenizer, str):
-            self.tokenizer = get_tokenizer(tokenizer_name=tokenizer)
+            self.tokenizer = Tokenizer(tokenizer_name=tokenizer) # default
         else:
             self.tokenizer = tokenizer
 

@@ -8,7 +8,7 @@ from ktextaug.file_utils import checkout
 checkout()
 
 from ktextaug.tokenization_utils import Tokenizer
-tokenizer = Tokenizer(tokenizer_or_name="komoran")
+tokenizer = Tokenizer(tokenizer_name="komoran")
 
 from ktextaug.transformative import backtranslate
 
