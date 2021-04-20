@@ -30,7 +30,7 @@ class TextAugmentation(object):
         self.num_process=num_processes if num_processes != -1 else int(cpu_count() / 2)
 
     def generate(self, text_or_corpus, mode='back_translate', rng=None,
-                 prob=0.1, n_swap=1, n_rep=1, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'], target_language='en',):
+                 prob=0.1, n_swaps=1, n_inserts=1, n_syns=1, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'], target_language='en',):
 
         rng = random.Random() if rng is None else rng
         if mode == "back_translate":
@@ -38,14 +38,16 @@ class TextAugmentation(object):
 
         if isinstance(text_or_corpus, list):
             pool = Pool(processes=self.num_process)
-            func = partial(self.augmentions[mode], prob=prob, tokenize_fn=self.tokenize_fn, rng=rng,
-                           n_swap=n_swap, n_rep=n_rep, noise_mode=noise_mode, target_language=target_language)
+            func = partial(self.augmentions[mode], tokenize_fn=self.tokenize_fn, rng=rng,
+                           prob=prob, n_swaps=n_swaps, n_inserts=n_inserts, n_syns=n_syns,
+                           noise_mode=noise_mode, target_language=target_language)
 
             return [r for r in tqdm(pool.imap(func=func, iterable=text_or_corpus), total=len(text_or_corpus))]
 
         elif isinstance(text_or_corpus, str):
-            text = self.augmentions[mode](text_or_corpus, prob=prob, tokenize_fn=self.tokenize_fn, rng=rng,
-                                                    n_swap=n_swap, n_rep=n_rep, noise_mode=noise_mode, target_language=target_language)
+            text = self.augmentions[mode](text_or_corpus, tokenize_fn=self.tokenize_fn, rng=rng,
+                                          prob=prob, n_swaps=n_swaps, n_inserts=n_inserts, n_syns=n_syns,
+                                          noise_mode=noise_mode, target_language=target_language)
             return text
 
 

@@ -1,7 +1,7 @@
 
 from .utils import isStopword, isWord, get_synonym, keep_punctuation
 
-def synonym_replace(text_or_words, tokenize_fn, rng, n_rep, **kwargs):
+def synonym_replace(text_or_words, tokenize_fn, rng, n_syns, **kwargs):
     # check if there is a punctuation mark
     if isinstance(text_or_words, str):
         words = tokenize_fn(text_or_words)
@@ -19,7 +19,7 @@ def synonym_replace(text_or_words, tokenize_fn, rng, n_rep, **kwargs):
             synonym = rng.choice(list(synonym))
             new_words = [synonym if word == random_word else word for word in result]
             num_replacement += 1
-        if num_replacement >= n_rep:
+        if num_replacement >= n_syns:
             break
     return " ".join(new_words) + keep
 

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="ktextaug",
-    version="0.1.9c1",
+    version="0.1.9c2",
     description="data augmentation tool for Korean",
     author="jinuk.cho, eddie.jeon, jonghyeok.park, junghoon.lee, minsu.jeong. all from ING Lab, SKKU.",
     author_email="cju2725@gmail.com",

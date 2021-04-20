@@ -1,48 +1,35 @@
 from .utils import isStopword, isWord, get_synonym, keep_punctuation
 
-def random_delete(text_or_words, prob, tokenize_fn, rng, **kwargs):
-    if isinstance(text_or_words, str):
-        words = tokenize_fn(text_or_words)
-        new_words, keep = keep_punctuation(words)
+def random_delete(text_or_tokens, prob, tokenizer, rng, **kwargs):
+    if isinstance(text_or_tokens, str):
+        tokens = tokenizer.tokenize(text_or_tokens)
+        tokens, keep = keep_punctuation(tokens)
     else:
-        new_words, keep = keep_punctuation(text_or_words)
+        tokens, keep = keep_punctuation(text_or_tokens)
+    output_tokens, length = [], len(tokens)
+    tokens.append('')
+    for i in range(length):
+        if rng.random() > prob:
+            output_tokens.append(tokens[i])
+        elif tokens[i + 1].startswith('##'):
+            output_tokens.append(tokens[i])
+    return " ".join(output_tokens) + keep
 
-    if len(new_words) == 1:
-        return new_words + keep
-
-    for _ in range(int(len(new_words) * prob)):
-        new_words.pop(rng.randint(0, len(words)))
-    return " ".join(new_words) + keep
-
-
-def random_swap(text_or_words, tokenize_fn, rng, n_swap, **kwargs):
-    if isinstance(text_or_words, str):
-        words = tokenize_fn(text_or_words)
-        new_words, keep = keep_punctuation(words)
+def random_swap(text_or_tokens, tokenize_fn, rng, n_swaps, **kwargs):
+    if isinstance(text_or_tokens, str):
+        tokens = tokenize_fn(text_or_tokens)
+        tokens, keep = keep_punctuation(tokens)
     else:
-        new_words, keep = keep_punctuation(text_or_words)
+        tokens, keep = keep_punctuation(text_or_tokens)
 
-    for _ in range(n_swap):
-        new_words = _swap_word(new_words, rng)
-    return " ".join(new_words) + keep
-
-def _swap_word(new_words, rng):
-    random_idx_1 = rng.randint(0, len(new_words))
-    random_idx_2 = random_idx_1
-    counter = 0
-    while random_idx_2 == random_idx_1:
-        random_idx_2 = rng.randint(0, len(new_words))
-        counter += 1
-        if counter > 3:
-            return new_words
-    new_words[random_idx_1], new_words[random_idx_2] = (
-        new_words[random_idx_2],
-        new_words[random_idx_1],
-    )
-    return new_words
+    for i in range(n_swaps):
+        r1,r2 = sorted(rng.sample(range(len(tokens)), 2))
+        tokens.insert(r2, tokens.pop(r1))
+        tokens.insert(r1, tokens.pop(r2 - 1))
+    return " ".join(tokens) + keep
 
 
-def random_insert(text_or_words, n, tokenize_fn, rng):
+def random_insert(text_or_words, n_inserts, tokenize_fn, rng, **kwargs):
     # check if there is a punctuation mark
     if isinstance(text_or_words, str):
         words = tokenize_fn(text_or_words)
@@ -51,7 +38,7 @@ def random_insert(text_or_words, n, tokenize_fn, rng):
         words, keep = keep_punctuation(text_or_words)
 
     f_words = [w for w in words if (not isStopword(w)) and isWord(w)]
-    target = rng.choices(f_words, k=n)
+    target = rng.choices(f_words, k=n_inserts)
     for origin in target:
         new_syn = _get_word(origin)
         words.insert(rng.randrange(0, len(words)) - 1, new_syn)
