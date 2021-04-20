@@ -1,15 +1,12 @@
-from .utils import isStopword, isWord, get_synonym, keep_punctuation
-
+from .utils import isStopword, isWord, get_synonym
+import string
 def synonym_replace(text_or_words, tokenizer, rng, n_syns, **kwargs):
     # check if there is a punctuation mark
     if isinstance(text_or_words, str):
         words = tokenizer.tokenize(text_or_words)
-        new_words, keep = keep_punctuation(words)
-    else:
-        new_words, keep = keep_punctuation(text_or_words)
 
-    result = new_words[:]
-    nonStop = [w for w in result if (not isStopword(w)) and isWord(w)]
+    result = words[:]
+    nonStop = [w for w in result if (not isStopword(w)) and (w not in string.punctuation) and isWord(w)]
     rng.shuffle(nonStop)
     num_replacement = 0
     for random_word in nonStop:
@@ -20,5 +17,5 @@ def synonym_replace(text_or_words, tokenizer, rng, n_syns, **kwargs):
             num_replacement += 1
         if num_replacement >= n_syns:
             break
-    return tokenizer.post_process(new_words) + keep
+    return tokenizer.post_process(new_words)
 

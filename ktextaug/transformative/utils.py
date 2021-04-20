@@ -18,14 +18,6 @@ def isStopword(word):
     else:
         return False
 
-def keep_punctuation(tokens):
-    if tokens[-1] in string.punctuation:
-        keep = tokens[-1]
-        tokens = tokens[:-1]
-    else:
-        keep = str()
-        tokens = tokens
-    return tokens, keep
 
 def define_stopwords(new_stopwords: list) -> list:
     """

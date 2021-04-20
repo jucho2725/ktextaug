@@ -1,48 +1,45 @@
+import string
+
 from .utils import isStopword, isWord, get_synonym, keep_punctuation
 
 def random_delete(text_or_tokens, prob, tokenizer, rng, **kwargs):
     if isinstance(text_or_tokens, str):
         tokens = tokenizer.tokenize(text_or_tokens)
-        tokens, keep = keep_punctuation(tokens)
-    else:
-        tokens, keep = keep_punctuation(text_or_tokens)
+
     output_tokens, length = [], len(tokens)
     tokens.append('')
     for i in range(length):
-        if rng.random() > prob:
+        if rng.random() > prob and tokens[i] not in string.punctuation:
             output_tokens.append(tokens[i])
         elif tokens[i + 1].startswith('##'):
             output_tokens.append(tokens[i])
-    return tokenizer.post_process(output_tokens) + keep
+    return tokenizer.post_process(output_tokens)
 
 def random_swap(text_or_tokens, tokenizer, rng, n_swaps, **kwargs):
     if isinstance(text_or_tokens, str):
         tokens = tokenizer.tokenize(text_or_tokens)
-        tokens, keep = keep_punctuation(tokens)
-    else:
-        tokens, keep = keep_punctuation(text_or_tokens)
 
     for i in range(n_swaps):
-        r1,r2 = sorted(rng.sample(range(len(tokens)), 2))
+        while True:
+            r1,r2 = sorted(rng.sample(range(len(tokens)), 2))
+            if tokens[r1] not in string.punctuation and tokens[r1] not in string.punctuation:
+                break
         tokens.insert(r2, tokens.pop(r1))
         tokens.insert(r1, tokens.pop(r2 - 1))
-    return tokenizer.post_process(tokens) + keep
+    return tokenizer.post_process(tokens)
 
 
 def random_insert(text_or_words, n_inserts, tokenizer, rng, **kwargs):
     # check if there is a punctuation mark
     if isinstance(text_or_words, str):
         words = tokenizer.tokenize(text_or_words)
-        words, keep = keep_punctuation(words)
-    else:
-        words, keep = keep_punctuation(text_or_words)
 
-    f_words = [w for w in words if (not isStopword(w)) and isWord(w)]
+    f_words = [w for w in words if (not isStopword(w)) and (w not in string.punctuation) and isWord(w)]
     target = rng.choices(f_words, k=n_inserts)
     for origin in target:
         new_syn = _get_word(origin)
         words.insert(rng.randrange(0, len(words)) - 1, new_syn)
-    return tokenizer.post_process(words) + keep
+    return tokenizer.post_process(words)
 
 def _get_word(target):
     Flag = True
