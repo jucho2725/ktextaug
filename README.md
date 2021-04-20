@@ -62,6 +62,7 @@ print(agent.generate(sample_texts))
 ```python
 from ktextaug.tokenization_utils import Tokenizer
 from ktextaug import random_swap
+from random import Random
 
 text = "이 문장은 변형적 데이터 증강기법의 예시 문장입니다."
 tokenizer = Tokenizer(tokenizer_name="mecab")
@@ -85,6 +86,7 @@ ktextaug 패키지에서 제공하는 형태소 분석기(토크나이저) 모�
 ```python
 from ktextaug.tokenization_utils import Tokenizer
 from ktextaug import random_swap
+from random import Random
 
 # get_tokenize_fn 함수의 사용예시
 tokenizer = Tokenizer(tokenizer_name="komoran") # 별도의 설치 과정 필요. default 인 subword 만 설피과정 필요 없음.
@@ -92,7 +94,7 @@ tokenizer = bring_it_your_own    # 토크나이저는 어떤 토크나이저를 
 
 result = random_swap(text_or_tokens=text,
                      tokenizer=tokenizer, 
-                     rng=Random(seed=2021),
+                     rng=Random(2021),
                      n_swaps=2)
 
 ```
