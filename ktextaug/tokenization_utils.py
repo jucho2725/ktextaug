@@ -1,4 +1,9 @@
 from pkg_resources import resource_filename
+from types import ModuleType
+from PyKomoran import Komoran
+from konlpy.tag import Mecab
+from transformers import BertTokenizer
+
 import os
 # try:
 #     import importlib.resources as pkg_resources
@@ -6,22 +11,34 @@ import os
 #     # Try backported to PY<37 `importlib_resources`.
 #     import importlib_resources as pkg_resources
 
-
-def get_tokenize_fn(tokenizer_name="mecab", vocab_path=None):
-    if tokenizer_name.lower() == "komoran":
-        from PyKomoran import Komoran
-        tokenizer = Komoran("STABLE")
-        return tokenizer.get_morphes_by_tags
-    elif tokenizer_name.lower() == "mecab":
-        from konlpy.tag import Mecab
-        tokenizer = Mecab()
-        return tokenizer.morphs
-    elif tokenizer_name.lower() == "subword":
-        from transformers import BertTokenizer
-        if vocab_path is not None:
-            tokenizer = BertTokenizer(resource_filename(__package__, "vocab_noised.txt"), do_lower_case=False)
-            return tokenizer.tokenize
+class Tokenizer:
+    def __init__(self, tokenizer_or_name="komoran"):
+        if isinstance(tokenizer_or_name, ModuleType):
+            self.tokenizer = tokenizer_or_name
+            self.tokenizer_name = None
         else:
-            VOCABULARY = 'vocab_noised.txt'
-            tokenizer = BertTokenizer(resource_filename(__package__, "vocab_noised.txt"), do_lower_case=False)
-            return tokenizer.tokenize
+            print(tokenizer_or_name)
+            assert tokenizer_or_name.lower() == "komoran" or tokenizer_or_name.lower() == "mecab", "Only 'komoran' and 'mecab' is acceptable."
+            if tokenizer_or_name == "komoran":
+                self.tokenizer = Komoran("STABLE")
+            elif tokenizer_or_name == "mecab":
+                self.tokenizer = Mecab()
+            elif tokenizer_or_name == "subword":
+                tokenizer = BertTokenizer(resource_filename(__package__, "vocab_noised.txt"), do_lower_case=False)
+            self.tokenizer_name = tokenizer_or_name
+
+    def tokenize(self, text):
+        if self.tokenizer_name == "komoran":
+            return self.tokenizer.get_morphes_by_tags(text)
+        elif self.tokenizer_name == "mecab":
+            return self.tokenizer.morphs(text)
+        else: # self.tokenizer_name 이 None
+            return self.tokenizer.tokenize(text)
+
+    def post_process(self, tokens):
+        if self.tokenizer_name == "komoran":
+            return " ".join(tokens)
+        elif self.tokenizer_name == "mecab":
+            return " ".join(tokens)
+        else: # self.tokenizer_name 이 subword 또는 moduletype
+            return self.tokenizer.convert_tokens_to_string(tokens)

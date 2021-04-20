@@ -13,7 +13,7 @@ def random_delete(text_or_tokens, prob, tokenizer, rng, **kwargs):
             output_tokens.append(tokens[i])
         elif tokens[i + 1].startswith('##'):
             output_tokens.append(tokens[i])
-    return " ".join(output_tokens) + keep
+    return tokenizer.post_process(output_tokens) + keep
 
 def random_swap(text_or_tokens, tokenizer, rng, n_swaps, **kwargs):
     if isinstance(text_or_tokens, str):
@@ -26,7 +26,7 @@ def random_swap(text_or_tokens, tokenizer, rng, n_swaps, **kwargs):
         r1,r2 = sorted(rng.sample(range(len(tokens)), 2))
         tokens.insert(r2, tokens.pop(r1))
         tokens.insert(r1, tokens.pop(r2 - 1))
-    return " ".join(tokens) + keep
+    return tokenizer.post_process(tokens) + keep
 
 
 def random_insert(text_or_words, n_inserts, tokenizer, rng, **kwargs):
@@ -42,7 +42,7 @@ def random_insert(text_or_words, n_inserts, tokenizer, rng, **kwargs):
     for origin in target:
         new_syn = _get_word(origin)
         words.insert(rng.randrange(0, len(words)) - 1, new_syn)
-    return " ".join(words) + keep
+    return tokenizer.post_process(words) + keep
 
 def _get_word(target):
     Flag = True

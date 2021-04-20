@@ -12,6 +12,12 @@ except ImportError:
 textiowrapper = pkg_resources.open_text(__package__, 'stopwords-ko.txt') # __package__ 는 current module 의미
 stopwords = [w.strip() for w in textiowrapper] # list of string
 
+def isStopword(word):
+    if word in stopwords:
+        return True
+    else:
+        return False
+
 def keep_punctuation(tokens):
     if tokens[-1] in string.punctuation:
         keep = tokens[-1]
@@ -33,12 +39,6 @@ def define_stopwords(new_stopwords: list) -> list:
 
 def isWord(word):
     return word.isalnum()
-
-def isStopword(word):
-    if word in stopwords:
-        return True
-    else:
-        return False
 
 def get_synonym(word):
     relate_list = []
