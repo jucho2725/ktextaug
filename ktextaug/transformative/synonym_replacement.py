@@ -21,5 +21,5 @@ def synonym_replace(text_or_words, tokenize_fn, rng, n_rep, **kwargs):
             num_replacement += 1
         if num_replacement >= n_rep:
             break
-    return " ".join(new_words + [keep])
+    return " ".join(new_words) + keep
 

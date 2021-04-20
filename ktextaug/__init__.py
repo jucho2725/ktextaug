@@ -59,7 +59,7 @@ _import_structure = {
 }
 
 # Direct imports for type-checking
-print(f"type check {TYPE_CHECKING}")
+
 if TYPE_CHECKING:
     from .tokenization_utils import get_tokenize_fn
     from .transformative import (

@@ -1,3 +1,4 @@
 include LICENSE
-include ktextaug/stopwords-ko.txt
+include ktextaug/transformative/stopwords-ko.txt
+include ktextaug/vocab_noised.txt
 recursive-include ktextaug *

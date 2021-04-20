@@ -12,7 +12,7 @@ def random_delete(text_or_words, prob, tokenize_fn, rng, **kwargs):
 
     for _ in range(int(len(new_words) * prob)):
         new_words.pop(rng.randint(0, len(words)))
-    return " ".join(new_words + [keep])
+    return " ".join(new_words) + keep
 
 
 def random_swap(text_or_words, tokenize_fn, rng, n_swap, **kwargs):
@@ -24,7 +24,7 @@ def random_swap(text_or_words, tokenize_fn, rng, n_swap, **kwargs):
 
     for _ in range(n_swap):
         new_words = _swap_word(new_words, rng)
-    return " ".join(new_words + [keep])
+    return " ".join(new_words) + keep
 
 def _swap_word(new_words, rng):
     random_idx_1 = rng.randint(0, len(new_words))
@@ -55,7 +55,7 @@ def random_insert(text_or_words, n, tokenize_fn, rng):
     for origin in target:
         new_syn = _get_word(origin)
         words.insert(rng.randrange(0, len(words)) - 1, new_syn)
-    return " ".join(words + [keep])
+    return " ".join(words) + keep
 
 def _get_word(target):
     Flag = True

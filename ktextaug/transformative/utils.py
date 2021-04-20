@@ -15,10 +15,10 @@ PUNC = [".", ",", ":", ";", "?", "!"]
 def keep_punctuation(text):
     if text[-1] in PUNC:
         keep = text[-1]
-        text = text[:-1].copy()
+        text = text[:-1]
     else:
-        keep = None
-        text = text.copy()
+        keep = str()
+        text = text
     return text, keep
 
 def define_stopwords(new_stopwords: list) -> list:
