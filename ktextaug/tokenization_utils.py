@@ -20,7 +20,7 @@ class Tokenizer:
         elif tokenizer_name == "mecab":
             self.tokenizer = Mecab()
         elif tokenizer_name == "subword":
-            tokenizer = BertTokenizer(resource_filename(__package__, "vocab_noised.txt"), do_lower_case=False)
+            self.tokenizer = BertTokenizer(resource_filename(__package__, "vocab_noised.txt"), do_lower_case=False)
         self.tokenizer_name = tokenizer_name
 
     def tokenize(self, text):

@@ -11,7 +11,7 @@ from .file_utils import (
 # NOTE:
 # this is strongly inspired by transformers package, transformers/src/transformers/__init__.py
 
-__version__ = "0.1.9c3"
+__version__ = "0.1.9c4"
 
 class _LazyModule(_BaseLazyModule):
     """

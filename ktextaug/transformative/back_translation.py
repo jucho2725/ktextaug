@@ -15,9 +15,10 @@ def back_translate(text, target_language='en', **kwargs):
 def _backtrans_single(text, target_language):
     if isinstance(text, six.binary_type):
         text = text.decode("utf-8")
-    source_language =  translate_client.detect(text).lang
-    assert source_language != target_language, "Source language is deteted as same as target. You should select different target language for backtranslation."
-
+    source_language = "ko"
+    # source_language = translate_client.detect(text).lang
+    # err_msg = f"Source language {source_language} is deteted as same as target. You should select different target language {target_language} for backtranslation."
+    # assert source_language != target_language, err_msg
     back = translate_client.translate(text, dest=target_language)
     result = translate_client.translate(
         back.text, dest=source_language
@@ -28,9 +29,10 @@ def _backtrans_bulk(sents, target_language):
     text = sents[0]
     if isinstance(text, six.binary_type):
         sents = [t.decode("utf-8") for t in sents]
-    source_language = translate_client.detect(text).lang
-    assert source_language != target_language, "Source language is deteted as same as target. You should select different target language for backtranslation."
-
+    source_language = "ko"
+    # source_language = translate_client.detect(text).lang
+    # err_msg = f"Source language {source_language} is deteted as same as target. You should select different target language {target_language} for backtranslation."
+    # assert source_language != target_language, err_msg
     back = translate_client.translate(sents, dest=target_language)
     back_sents = [b.text for b in back]
     result = translate_client.translate(
