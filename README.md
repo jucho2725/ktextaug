@@ -33,7 +33,6 @@ transformers 패키지 내부를 참고하면서 만들고 있습니다.
 * PyKomoran>=0.1.5       # for Komoran tokenizer
 * transformers>=2.6.0    # for subword tokenizer
 
-예제를 테스트하기 위해선 pandas, parmap 이 필요할 수 있습니다.
 
 command line 설치 예시:
 
