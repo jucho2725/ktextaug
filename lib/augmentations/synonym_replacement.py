@@ -23,12 +23,13 @@ class SynDict(object):
         return token
 
 
+
 def synonym_replace(tokens, tokenizer, rng, n_syns, **kwargs):
     if isinstance(tokens, str):
         tokens = tokenizer.tokenize(tokens)
 
     new_tokens = [SYN_DICT.get_synonym(t) for t in tokens]
-    diff_idxes = [i for i,(t,nt) in enumerate(zip(tokens,new_tokens)) if t!=nt]
+    diff_idxes = [i for i, (t, nt) in enumerate(zip(tokens, new_tokens)) if t != nt]
     diff_idxes = rng.sample(diff_idxes, min(n_syns, len(diff_idxes)))
 
     output_tokens = []
@@ -41,5 +42,5 @@ def synonym_replace(tokens, tokenizer, rng, n_syns, **kwargs):
     return output_tokens
 
 
-
 SYN_DICT = SynDict()
+# Reusable object for the efficient

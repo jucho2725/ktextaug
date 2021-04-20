@@ -12,7 +12,7 @@ VOCABULARY = 'tokenization/vocabulary/basic_vocabulary.txt'
 
 # ['random_deletion', 'random_swap', 'synonym_replacement', 'noise_add', 'back-translation']
 # TODO: tokenization wrapping for 'mecab', 'kkma' etc.
-
+# TODO: check the speed of processing > sophisticating
 
 class TextAugmentation(object):
     def __init__(self):

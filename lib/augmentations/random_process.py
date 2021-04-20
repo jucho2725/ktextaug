@@ -2,6 +2,7 @@ import string
 from itertools import compress
 from synonym_replacement import SYN_DICT
 
+
 def random_delete(tokens, prob, tokenizer, rng, **kwargs):
     if isinstance(tokens, str):
         tokens = tokenizer.tokenize(tokens)
@@ -40,7 +41,6 @@ def random_swap(tokens, tokenizer, rng, n_swaps, **kwargs):
         tokens.insert(r2, tokens.pop(r1))
         tokens.insert(r1, tokens.pop(r2-1))
     return tokens
-
 
 
 if __name__ == '__main__':
