@@ -1,8 +1,8 @@
 from .utils import isStopword, isWord, get_synonym, keep_punctuation
 
-def random_delete(text_or_tokens, prob, tokenizer, rng, **kwargs):
+def random_delete(text_or_tokens, prob, tokenize_fn, rng, **kwargs):
     if isinstance(text_or_tokens, str):
-        tokens = tokenizer.tokenize(text_or_tokens)
+        tokens = tokenize_fn(text_or_tokens)
         tokens, keep = keep_punctuation(tokens)
     else:
         tokens, keep = keep_punctuation(text_or_tokens)

@@ -27,6 +27,9 @@ class TextAugmentation(object):
             self.tokenize_fn = lambda x: x.split(" ")
         elif isinstance(tokenize_fn, str):
             self.tokenize_fn = get_tokenize_fn(tokenizer_name=tokenize_fn)
+        else:
+            self.tokenize_fn = tokenize_fn
+
         self.num_process=num_processes if num_processes != -1 else int(cpu_count() / 2)
 
     def generate(self, text_or_corpus, mode='back_translate', rng=None,
