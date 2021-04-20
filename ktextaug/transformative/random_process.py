@@ -1,6 +1,6 @@
 import string
 
-from .utils import isStopword, isWord, get_synonym, keep_punctuation
+from .utils import isStopword, isWord, get_synonym
 
 def random_delete(text_or_tokens, prob, tokenizer, rng, **kwargs):
     if isinstance(text_or_tokens, str):
@@ -22,17 +22,17 @@ def random_swap(text_or_tokens, tokenizer, rng, n_swaps, **kwargs):
     for i in range(n_swaps):
         while True:
             r1,r2 = sorted(rng.sample(range(len(tokens)), 2))
-            if tokens[r1] not in string.punctuation and tokens[r1] not in string.punctuation:
+            if tokens[r1] not in string.punctuation and tokens[r2] not in string.punctuation:
                 break
         tokens.insert(r2, tokens.pop(r1))
         tokens.insert(r1, tokens.pop(r2 - 1))
     return tokenizer.post_process(tokens)
 
 
-def random_insert(text_or_words, n_inserts, tokenizer, rng, **kwargs):
+def random_insert(text_or_tokens, n_inserts, tokenizer, rng, **kwargs):
     # check if there is a punctuation mark
-    if isinstance(text_or_words, str):
-        words = tokenizer.tokenize(text_or_words)
+    if isinstance(text_or_tokens, str):
+        words = tokenizer.tokenize(text_or_tokens)
 
     f_words = [w for w in words if (not isStopword(w)) and (w not in string.punctuation) and isWord(w)]
     target = rng.choices(f_words, k=n_inserts)

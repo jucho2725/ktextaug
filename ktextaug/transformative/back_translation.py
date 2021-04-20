@@ -4,13 +4,13 @@ from typing import List, Union
 
 translate_client = Translator()
 
-def back_translate(text, target_language='en', **kwargs):
-    assert isinstance(text, list) or isinstance(text, str), "Source input should be string, or list of string."
-    if isinstance(text, list):
-        return _backtrans_bulk(text, target_language)
+def back_translate(text_or_corpus, target_language='en', **kwargs):
+    assert isinstance(text_or_corpus, list) or isinstance(text_or_corpus, str), "Source input should be string, or list of string."
+    if isinstance(text_or_corpus, list):
+        return _backtrans_bulk(text_or_corpus, target_language)
     else:
-        return _backtrans_single(text, target_language)
-    return text
+        return _backtrans_single(text_or_corpus, target_language)
+    return text_or_corpus
 
 def _backtrans_single(text, target_language):
     if isinstance(text, six.binary_type):

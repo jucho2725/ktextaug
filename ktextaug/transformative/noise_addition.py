@@ -120,7 +120,7 @@ def phonological_process(content, prob=0.3):
     return content
 
 
-def noise_add(text, prob, tokenize_fn, rng, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'],
+def noise_add(text, prob, rng, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'],
               **kwargs):
 
     fns_dict = {'jamo_split': splitting_noise,
