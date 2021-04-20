@@ -142,8 +142,10 @@ Contact: cju2725@gmail.com
 ## TO DO
 
 1. Generative Models 추가 예정 (4월 말)
-4. synonym search 동의어 못찾을시 문제 해결
-5. documentation 작성 
+2. synonym search 동의어 못찾을시 문제 해결
+3. documentation 작성 
+4. pkg_resources 성능 오버헤드 관련 이슈 
+https://docs.python.org/ko/3/library/importlib.html#module-importlib.resources
 
 ## Acknowledgement
 
