@@ -52,7 +52,6 @@ def get_tokenizer(keyword):
 
 def get_tokenize(tokenizer):
     class_name = tokenizer.__class__.__name__
-
     KONLPY = ['Kkma', 'Hannanum', 'Komoran', 'Twitter', 'Okt', 'Mecab']
 
     if class_name in KONLPY:
