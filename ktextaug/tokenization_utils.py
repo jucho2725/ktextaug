@@ -46,13 +46,21 @@ class Tokenizer:
 
 # proposed
 
-KONLPY = ['Kkma', 'Hannanum', 'Komoran', 'Twitter', 'Okt', 'Mecab']
+def load_list():
+    with open('./huggingface_pretrained_tokenizers.txt', 'r') as r:
+        hf_list = r.read().splitlines()
+    return hf_list
 
+KONLPY = ['Kkma', 'Hannanum', 'Komoran', 'Twitter', 'Okt', 'Mecab']
+HUGGINGFACE = load_list()
 
 def get_tokenizer(keyword):
     if keyword in KONLPY:
         return eval(f'{keyword}()')
-    return 'test'
+    elif keyword in HUGGINGFACE:
+        return AutoTokenizer.from_pretrained(keyword)
+    else:
+        raise KeyError('Not Defined!')
 
 
 def get_tokenize(tokenizer):
