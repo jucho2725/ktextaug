@@ -87,14 +87,6 @@ def wrapping_tokenizer(self, tokenizer=None):
 
     return tokenizer
 
-import ast
 
 if __name__ == '__main__':
-    object = eval('Kkma()')
-    print(object)
-    raise ValueError
-    print(Kkma().__class__.__name__)
-    print(Hannanum().__class__.__name__)
-    print(Komoran().__class__.__name__)
-    print(Okt().__class__.__name__)
-    print(Mecab())
+    pass
