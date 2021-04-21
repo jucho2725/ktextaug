@@ -1,7 +1,7 @@
 from pkg_resources import resource_filename
 from types import ModuleType
-#from PyKomoran import Komoran
-#from konlpy.tag import Mecab
+from PyKomoran import Komoran
+from konlpy.tag import *
 from transformers import BertTokenizer
 from functools import partial
 from transformers import *
@@ -43,16 +43,32 @@ class Tokenizer:
             return self.tokenizer.convert_tokens_to_string(tokens)
 
 
+
+#proposed
+
 def get_tokenizer(keyword):
     return 'test'
 
 
-def get_tokenize():
-    return 'test'
+def get_tokenize(tokenizer):
+    class_name = tokenizer.__class__.__name__
 
+    KONLPY = ['Kkma', 'Hannanum', 'Komoran', 'Twitter', 'Okt', 'Mecab']
 
-def get_convert_tokens_to_string():
-    return 'test'
+    if class_name in KONLPY:
+        return tokenizer.morphs
+
+    return lambda x: x.split()
+
+# TODO:define the method for the uncased tokens
+def convert_tokens_to_string(tokens):
+    new_tokens = [[]]
+    for token in tokens:
+        if token.startswith('##'):
+            new_tokens[-1].append(token.replace('##', ''))
+            continue
+        new_tokens.append([token])
+    return ' '.join([''.join(tset) for tset in new_tokens if tset])
 
 
 def wrapping_tokenizer(self, tokenizer=None):
@@ -65,12 +81,14 @@ def wrapping_tokenizer(self, tokenizer=None):
         tokenizer.tokenize = partial(get_tokenize(tokenizer), tokenizer)
 
     if 'convert_tokens_to_string' not in functions:
-        tokenizer.convert_tokens_to_string = partial(get_convert_tokens_to_string(tokenizer), tokenizer)
+        tokenizer.convert_tokens_to_string = partial(convert_tokens_to_string, tokenizer)
 
     return tokenizer
 
 if __name__ =='__main__':
-    tokenizer = AutoTokenizer.from_pretrained('bert-base-cased')
-    print(dir(tokenizer))
-    tokenizer = TestTokenizer(tokenizer)
-    print(dir(tokenizer))
+    print(Kkma().__class__.__name__)
+    print(Hannanum().__class__.__name__)
+    print(Komoran().__class__.__name__)
+    print(Okt().__class__.__name__)
+
+
