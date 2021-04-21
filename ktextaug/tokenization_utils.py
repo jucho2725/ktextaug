@@ -75,20 +75,20 @@ def wrapping_tokenizer(self, tokenizer=None):
     if isinstance(tokenizer, str):
         tokenizer = get_tokenizer(tokenizer)
 
-    functions = dir(tokenizer)
-
-    if 'tokenize' not in functions:
+    if 'tokenize' not in dir(tokenizer):
         tokenizer.tokenize = partial(get_tokenize(tokenizer), tokenizer)
 
-    if 'convert_tokens_to_string' not in functions:
+    if 'convert_tokens_to_string' not in dir(tokenizer):
         tokenizer.convert_tokens_to_string = partial(convert_tokens_to_string, tokenizer)
 
     return tokenizer
+
 
 if __name__ =='__main__':
     print(Kkma().__class__.__name__)
     print(Hannanum().__class__.__name__)
     print(Komoran().__class__.__name__)
     print(Okt().__class__.__name__)
+    print(Mecab())
 
 
