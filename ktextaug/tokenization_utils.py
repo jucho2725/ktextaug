@@ -1,8 +1,11 @@
 from pkg_resources import resource_filename
 from types import ModuleType
-from PyKomoran import Komoran
-from konlpy.tag import Mecab
+#from PyKomoran import Komoran
+#from konlpy.tag import Mecab
 from transformers import BertTokenizer
+from functools import partial
+from transformers import *
+
 
 import os
 # try:
@@ -38,3 +41,36 @@ class Tokenizer:
             return " ".join(tokens)
         else: # self.tokenizer_name 이 subword 또는 moduletype
             return self.tokenizer.convert_tokens_to_string(tokens)
+
+
+def get_tokenizer(keyword):
+    return 'test'
+
+
+def get_tokenize():
+    return 'test'
+
+
+def get_convert_tokens_to_string():
+    return 'test'
+
+
+def wrapping_tokenizer(self, tokenizer=None):
+    if isinstance(tokenizer, str):
+        tokenizer = get_tokenizer(tokenizer)
+
+    functions = dir(tokenizer)
+
+    if 'tokenize' not in functions:
+        tokenizer.tokenize = partial(get_tokenize(tokenizer), tokenizer)
+
+    if 'convert_tokens_to_string' not in functions:
+        tokenizer.convert_tokens_to_string = partial(get_convert_tokens_to_string(tokenizer), tokenizer)
+
+    return tokenizer
+
+if __name__ =='__main__':
+    tokenizer = AutoTokenizer.from_pretrained('bert-base-cased')
+    print(dir(tokenizer))
+    tokenizer = TestTokenizer(tokenizer)
+    print(dir(tokenizer))

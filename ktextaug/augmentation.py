@@ -14,7 +14,7 @@ from tqdm.auto import tqdm
 # TODO: tokenization wrapping for 'mecab', 'kkma' etc.
 
 class TextAugmentation(object):
-    def __init__(self, tokenizer=None, num_processes=1,):
+    def __init__(self, tokenizer=None, num_processes=1):
         self.augmentions = {
             'random_delete': random_delete,
             'random_swap': random_swap,
@@ -30,12 +30,13 @@ class TextAugmentation(object):
         else:
             self.tokenizer = tokenizer
 
-        self.num_process=num_processes if num_processes != -1 else int(cpu_count() / 2)
+        self.num_process = num_processes if num_processes != -1 else int(cpu_count() / 2)
 
     def generate(self, text_or_corpus, mode='back_translate', rng=None,
-                 prob=0.1, n_swaps=1, n_inserts=1, n_syns=1, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'], target_language='en',):
+                 prob=0.1, n_swaps=1, n_inserts=1, n_syns=1, noise_mode=['jamo_split', 'vowel_change', 'phonological_change'], target_language='en'):
 
-        rng = random.Random() if rng is None else rng
+        rng = rng if rng else random.Random()
+
         if mode == "back_translate":
             text_or_corpus = self.augmentions[mode](text_or_corpus, target_language=target_language)
 
@@ -45,7 +46,9 @@ class TextAugmentation(object):
                            prob=prob, n_swaps=n_swaps, n_inserts=n_inserts, n_syns=n_syns,
                            noise_mode=noise_mode, target_language=target_language)
 
-            return [r for r in tqdm(pool.imap(func=func, iterable=text_or_corpus), total=len(text_or_corpus))]
+            texts = [r for r in tqdm(pool.imap(func=func, iterable=text_or_corpus), total=len(text_or_corpus))]
+
+            return texts
 
         elif isinstance(text_or_corpus, str):
             text = self.augmentions[mode](text_or_corpus, tokenizer=self.tokenizer, rng=rng,
