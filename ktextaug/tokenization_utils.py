@@ -6,8 +6,9 @@ from transformers import BertTokenizer
 from functools import partial
 from transformers import *
 
-
 import os
+
+
 # try:
 #     import importlib.resources as pkg_resources
 # except ImportError:
@@ -16,8 +17,8 @@ import os
 
 class Tokenizer:
     def __init__(self, tokenizer_name="komoran"):
-        assert (tokenizer_name.lower() == "komoran") or (tokenizer_name.lower() == "mecab")\
-            or (tokenizer_name.lower() == "subword"), "Only 'komoran', 'mecab', and 'subword' is acceptable."
+        assert (tokenizer_name.lower() == "komoran") or (tokenizer_name.lower() == "mecab") \
+               or (tokenizer_name.lower() == "subword"), "Only 'komoran', 'mecab', and 'subword' is acceptable."
         if tokenizer_name == "komoran":
             self.tokenizer = Komoran("STABLE")
         elif tokenizer_name == "mecab":
@@ -31,7 +32,7 @@ class Tokenizer:
             return self.tokenizer.get_morphes_by_tags(text)
         elif self.tokenizer_name == "mecab":
             return self.tokenizer.morphs(text)
-        else: # self.tokenizer_name 이 None
+        else:  # self.tokenizer_name 이 None
             return self.tokenizer.tokenize(text)
 
     def post_process(self, tokens):
@@ -39,12 +40,11 @@ class Tokenizer:
             return " ".join(tokens)
         elif self.tokenizer_name == "mecab":
             return " ".join(tokens)
-        else: # self.tokenizer_name 이 subword 또는 moduletype
+        else:  # self.tokenizer_name 이 subword 또는 moduletype
             return self.tokenizer.convert_tokens_to_string(tokens)
 
 
-
-#proposed
+# proposed
 
 def get_tokenizer(keyword):
     return 'test'
@@ -59,6 +59,7 @@ def get_tokenize(tokenizer):
         return tokenizer.morphs
 
     return lambda x: x.split()
+
 
 # TODO:define the method for the uncased tokens
 def convert_tokens_to_string(tokens):
@@ -84,11 +85,9 @@ def wrapping_tokenizer(self, tokenizer=None):
     return tokenizer
 
 
-if __name__ =='__main__':
+if __name__ == '__main__':
     print(Kkma().__class__.__name__)
     print(Hannanum().__class__.__name__)
     print(Komoran().__class__.__name__)
     print(Okt().__class__.__name__)
     print(Mecab())
-
-
