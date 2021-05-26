@@ -115,11 +115,11 @@ result = random_swap(text_or_tokens=text,
 ## Things to know
 
 1. 노이즈 생성은 @hkjeon13(전현규) 의 노이즈 생성을 따랐습니다
-   
 
-https://github.com/hkjeon13/noising-korean
+   https://github.com/hkjeon13/noising-korean
 
 2. 한국어 불용어 사전의 경우 다음 링크의 파일을 그대로 가져왔습니다. 
+   
    https://github.com/stopwords-iso/stopwords-ko/blob/master/stopwords-ko.txt
 
 ## Contribution
