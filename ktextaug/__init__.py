@@ -54,7 +54,7 @@ _import_structure = {
             "synonym_replace",
             "utils",
     ],
-    "generative": [],
+    "generative": ["back_trans"],
     "augmentation": ["TextAugmentation"],
 }
 
