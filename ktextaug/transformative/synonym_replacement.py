@@ -10,7 +10,7 @@ def synonym_replace(text_or_words, tokenizer, rng, n_syns, **kwargs):
     rng.shuffle(nonStop)
     num_replacement = 0
     for random_word in nonStop:
-        synonym = get_synonym(random_word, rng)
+        synonym = get_synonym(random_word)
         if len(synonym) >= 1:
             synonym = rng.choice(list(synonym))
             new_words = [synonym if word == random_word else word for word in result]
