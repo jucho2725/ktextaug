@@ -3,11 +3,13 @@
 
 Data augmentation Toolkit for Korean text.
 It provides transformative text augmentation methods.
-We will release generative text augmentation methods (in May, hopefully)
+Now we are having hard time to maintain or improve this package. But we hope that there is an opportunity to come back and upgrade this soon.
 
 한국어에 적용가능한 텍스트 증강 기법을 모아둔 패키지입니다.
 현재는 변형적 텍스트 증강기법만을 구현해두었으며, 생성적 텍스트 증강기법 모델 또한 추가될 예정입니다.
 transformers 패키지 내부를 참고하면서 만들고 있습니다.
+
+* 한동안 유지보수 또는 기능추가가 불가능합니다. 빠른 시일 내에 복귀하도록 하겠습니다 
 
 현재 버젼: 0.1.9
 
@@ -16,9 +18,6 @@ transformers 패키지 내부를 참고하면서 만들고 있습니다.
 - 노이즈가 포함된 vocab을 가진 기본 subword tokenizer과 다른 토크나이저들을 만들었습니다. 
 - 기타 버그 해결 
 
-일정
-- 6월 중순 까지 논문 작성으로 업데이트가 불가능합니다. 관심 가져주신 분들께 죄송합니다!
-- 생성모델을 만들어두었으나 패키지로 올리는 작업을 못하고 있습니다. 혹시 관심 있신분은 연락주세요 :)
 
 ## Installation
 
