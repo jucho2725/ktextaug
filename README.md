@@ -113,7 +113,7 @@ result = random_swap(text_or_tokens=text,
 
 ## Things to know
 
-1. 노이즈 생성은 @hkjeon13(전현규) 의 노이즈 생성을 따랐습니다
+1. 노이즈 생성은 @hkjeon13 의 노이즈 생성을 따랐습니다
 
    https://github.com/hkjeon13/noising-korean
 
